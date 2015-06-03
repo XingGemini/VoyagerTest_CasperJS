@@ -19,58 +19,76 @@ casper.on('page.error', function(msg, trace) {
 casper.test.begin('User with Institution Privilege', function(test) {
 	casper.start();
 
-	casper.login ('/login.html', 'xxu+00all@completegenomics.com', 'Complete1');
+	var usr = {	'usrID':"xxu+00all@completegenomics.com",
+				'pwd':'Complete1',
+				'Institution':'00_TestInstitute'};
+
+	casper.login ('/login.html', usr.usrID, usr.pwd, usr.Institution);
 	
 	casper.waitForSelector(".cgIcon-hamburgerMenu",
 		function success() {
-			test.assertExists(".cgIcon-hamburgerMenu");
+			test.assertExists(".cgIcon-hamburgerMenu", "User logged in.");
 			this.click(".cgIcon-hamburgerMenu");
 			console.log(this.getCurrentUrl());
-			this.capture("LoggedIn.png");
 		},
 		function fail() {
+			test.assertExists(".cgIcon-hamburgerMenu");
 			this.echo(this.getCurrentUrl());
-			this.capture("Login_fail.png");
-			test.assertExists(".cgIcon-hamburgerMenu");
+			this.capture("login_fail.png");
 		}
 	);
 
-
-	casper.waitForSelector(".cgIcon-hamburgerMenu",
-		function success() {
-			this.click(".cgIcon-hamburgerMenu");
-		},
-		function fail() {
-			test.assertExists(".cgIcon-hamburgerMenu");
-		}
-	);
-	
-	casper.waitForSelector(".topLevelLink.submenuActiveLink.submenuEnabled",
-		function success() {
-			this.click(".topLevelLink.submenuActiveLink.submenuEnabled");
-		},
-		function fail() {
-			test.assertExists(".topLevelLink.submenuActiveLink.submenuEnabled");
-			this.capture ("topLevelLink.png")
-		}
-	);
-
-	casper.waitForSelector(x("//*[contains(text(), \'Institutions\')]"),
-		function success() {
-			test.assertExists(x("//*[contains(text(), \'Institutions\')]"));
-		},
-		function fail() {
-			test.assertExists(x("//*[contains(text(), \'Institutions\')]"));
-		}
-	);
-
-	casper.waitForSelector(x("//*[contains(text(), \'Administration > Institutions\')]"),
-		function success() {
-			test.assertExists(x("//*[contains(text(), \'Administration > Institutions\')]"));
-			},
-		function fail() {
-			test.assertExists(x("//*[contains(text(), \'Administration > Institutions\')]"));
+	casper.waitForSelector("#adminContainer > .submenuLink.adminCategoryLink:nth-child(1)",
+		 function success() {
+			test.assertExists("#adminContainer > .submenuLink.adminCategoryLink:nth-child(1)",
+							"User is able to select Admin > Institution");
+			this.click("#adminContainer > .submenuLink.adminCategoryLink:nth-child(1)");
+		 },
+		 function fail() {
+			test.assertExists("#adminContainer > .submenuLink.adminCategoryLink:nth-child(1)");
+			this.capture ("admin_fail.png");
 	});
+
+	casper.waitForSelector(x("//div[@id='detailView']/header/div/div"),
+		function success() {
+			var txt = this.fetchText(x("//div[@id='detailView']/header/div/div"));
+			//this.echo (txt);
+			test.assertMatch(txt, /Institution Detail/i, 
+							 "Institution Detail is displaying");
+		},
+		function fail() {
+			test.assertExists(x("//div[@id='detailView']/header/div/div"), 
+				"Institution Detail is NOT displaying");
+		}
+	);
+
+	casper.waitForSelector(x("//div[@id='detailView']/header/div[2]/span"),
+		function success() {
+			var txt = this.fetchText(x("//div[@id='detailView']/header/div[2]/span"));
+			txt = txt.replace('undefined', '')
+			//this.echo (txt);
+			test.assertEqual(txt, usr.Institution, 'User\'s Institution matches');
+		},
+		function fail() {
+			test.assertExists(x("//div[@id='detailView']/header/div[2]/span"));
+		}
+	);
+
+	casper.waitForSelector(x("//div[@id='listView']/div[2]/div/div[2]/div[2]/span"),
+		function success() {
+			var button = this.fetchText(x("//div[@id='listView']/div/div/button"));
+			test.assertNotEquals(button, 'NEW',
+				'User can NOT be able to create new Institutions. The new button is NOT displayed on the UI.');
+			var txt = this.fetchText(x("//div[@id='listView']/div[2]/div/div[2]/div[2]/span"));
+			var institution_cnt = txt.split(" ", 1);
+			test.assertEqual(institution_cnt, 1, 
+							'User with ONLY istitituion privilege should not see other institutions.');
+
+		},
+		function fail() {
+			test.assertExists(x("//div[@id='listView']/div[2]/div/div[2]/div[2]/span"));
+		}
+	);
 
 	casper.run(function() {test.done();});
 });

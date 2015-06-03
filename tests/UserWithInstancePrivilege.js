@@ -79,7 +79,7 @@ casper.test.begin('User with Instance Privilege', function(test) {
 			test.assertExists(x("//div[@id='listView']/div/div/button"), 
 				'User can create new Institutions.');
 			var txt = this.fetchText (x("//div[@id='listView']/div/div/button"));
-			test.assertEqual(txt, 'NEW',
+			test.assertEquals(txt, 'NEW',
 				'The new button is displayed on the UI.');
 		},
 		function fail() {
