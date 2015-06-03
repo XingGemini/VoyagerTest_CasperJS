@@ -77,8 +77,10 @@ casper.test.begin('User with Institution Privilege', function(test) {
 	casper.waitForSelector(x("//div[@id='listView']/div[2]/div/div[2]/div[2]/span"),
 		function success() {
 			var button = this.fetchText(x("//div[@id='listView']/div/div/button"));
+			this.capture ("newButton_fail.png");
 			test.assertNotEquals(button, 'NEW',
 				'User can NOT be able to create new Institutions. The new button is NOT displayed on the UI.');
+
 			var txt = this.fetchText(x("//div[@id='listView']/div[2]/div/div[2]/div[2]/span"));
 			var institution_cnt = txt.split(" ", 1);
 			test.assertEqual(institution_cnt, 1, 
@@ -90,5 +92,7 @@ casper.test.begin('User with Institution Privilege', function(test) {
 		}
 	);
 
-	casper.run(function() {test.done();});
+	casper.logout();
+
+	casper.run(function() {slimer.clearHttpAuth(); test.done();});
 });

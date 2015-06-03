@@ -35,5 +35,5 @@ casper.test.begin('Institution User Test', function(test) {
 		}
 	);
 
-	 casper.run(function() {test.done();});
+	 casper.run(function() {slimer.exit(); test.done();});
 });

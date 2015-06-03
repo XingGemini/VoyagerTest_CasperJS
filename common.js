@@ -54,18 +54,18 @@ casper.login = function (path, usid, pwd) {
 		function fail() {
 			console.log("input[name='password'] is not found");
 		}
-  );
+	);
 
-  casper.waitForSelector(x("//a[normalize-space(text())='Log In']"),
+	casper.waitForSelector(x("//a[normalize-space(text())='Log In']"),
 		function success() {
 			this.click(x("//a[normalize-space(text())='Log In']"));
 		},
 		function fail() {
 			console.log(x("//a[normalize-space(text())='Log In'] is not found"));
 		}
-  );
-  
-  casper.waitForUrl("/index.html", 
+	);
+
+	casper.waitForUrl("/index.html", 
 		function success() {
 			console.log("=> index.html");
 		},
@@ -86,3 +86,15 @@ casper.login = function (path, usid, pwd) {
 	);
 
 };
+
+casper.logout = function () {
+	casper.waitForSelector(x("//a[normalize-space(text())='Log Out']"),
+		function success() {
+			//test.assertExists(x("//a[normalize-space(text())='Log Out']"));
+			this.click(x("//a[normalize-space(text())='Log Out']"));
+			console.log ("Logging out ...")
+		},
+		function fail() {
+			test.assertExists(x("//a[normalize-space(text())='Log Out']"));
+	});
+}

@@ -88,18 +88,7 @@ casper.test.begin('User with Instance Privilege', function(test) {
 		}
 	);
 
+	casper.logout();
 
-	casper.waitForSelector(x("//div[@id='listView']/div[2]/div/div[2]/div[2]/span"),
-		function success() {
-			var txt = this.fetchText(x("//div[@id='listView']/div[2]/div/div[2]/div[2]/span"));
-			var institution_cnt = txt.split(" ", 1);
-			test.assertEqual(((institution_cnt-1) > 0), true, 
-							'User with instance privilege can see all institutions.');
-		},
-		function fail() {
-			test.assertExists(x("//div[@id='listView']/div[2]/div/div[2]/div[2]/span"));
-		}
-	);
-
-	casper.run(function() {test.done();});
+	casper.run(function() {slimer.clearHttpAuth(); test.done();});
 });
