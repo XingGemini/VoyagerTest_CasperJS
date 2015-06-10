@@ -37,5 +37,5 @@ TEST=${1-.}
 rm -f cookies.txt
 
 # Run tests.
-echo casperjs --verbose --cookies-file=cookies.txt test --includes=common.js,chance.js tests/$TEST --root=`pwd` --url=$URL --ssl-protocol=any --engine=slimerjs
-casperjs --verbose --cookies-file=cookies.txt test --includes=common.js,chance.js tests/$TEST --root=`pwd` --url=$URL --ssl-protocol=any --engine=slimerjs
+echo casperjs --verbose --cookies-file=cookies.txt test --includes=common.js,testfixture_user.js tests/$TEST --root=`pwd` --url=$URL --ssl-protocol=any --engine=slimerjs
+casperjs --verbose --cookies-file=cookies.txt test --includes=common.js,testfixture_user.js tests/$TEST --root=`pwd` --url=$URL --ssl-protocol=any --engine=slimerjs

@@ -3,6 +3,19 @@
  *
  * This file is included automagically by the "test" executable.
  */
+var utils = require('utils');
+
+casper.init = function (path) {
+	casper.userAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:36.0) Gecko/20100101 Firefox/36.0');
+	casper.options.viewportSize = {width: 1280, height: 720};
+	casper.on('page.error', function(msg, trace) {
+		this.echo('Error: ' + msg, 'ERROR');
+		for(var i=0; i<trace.length; i++) {
+			var step = trace[i];
+			this.echo('  ' + step.file + ' (line ' + step.line + ')', 'ERROR');
+		}
+	});
+};
 
 /**
  * Wrapper for http://docs.casperjs.org/en/latest/modules/casper.html#open
@@ -32,8 +45,11 @@ casper.thenOpenPath = function (path, thenCallback) {
  * Uses url argument from the command line in order to open a URL path and
  * define a navigation step.
  */
-casper.login = function (path, usid, pwd) {
+casper.login = function (path, usr) {
 	var cleanPath = path.replace(/^\//, '');
+	var usid = usr.usrID;
+	var pwd = usr.pwd;
+	
 	casper.thenOpen(casper.cli.get('url') + '/' + cleanPath);
 
 	console.log ("Logging in as " + usid + " ...");
@@ -56,12 +72,12 @@ casper.login = function (path, usid, pwd) {
 		}
 	);
 
-	casper.waitForSelector(x("//a[normalize-space(text())='Log In']"),
+	casper.waitForSelector(".button.login",
 		function success() {
-			this.click(x("//a[normalize-space(text())='Log In']"));
+			this.click(".button.login");
 		},
 		function fail() {
-			console.log(x("//a[normalize-space(text())='Log In'] is not found"));
+			console.log("login button is not found");
 		}
 	);
 

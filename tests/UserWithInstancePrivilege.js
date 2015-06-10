@@ -1,29 +1,16 @@
 /*==============================================================================*/
 /* Casper generated Thu May 21 2015 11:12:56 GMT-0700 (PDT) */
 /*==============================================================================*/
-//var require = patchRequire(require);
-
 var x = require('casper').selectXPath;
-//var ch = require ('./chance');
 
-casper.userAgent('Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.');
-casper.options.viewportSize = {width: 1280, height: 720};
-casper.on('page.error', function(msg, trace) {
-	this.echo('Error: ' + msg, 'ERROR');
-	for(var i=0; i<trace.length; i++) {
-		var step = trace[i];
-			this.echo('  ' + step.file + ' (line ' + step.line + ')', 'ERROR');
-	}
-});
+casper.init();
 
 casper.test.begin('User with Instance Privilege', function(test) {
+	var usr = USR00INSTANCE;  // using USR00INSTANCE
+
 	casper.start();
 
-	var usr = {	'usrID':"xxu+00instance@completegenomics.com",
-				'pwd':'Complete1',
-				'Institution':'00_TestInstitute'};
-
-	casper.login ('/login.html', usr.usrID, usr.pwd, usr.Institution);
+	casper.login ('/login.html', usr);
 	
 	casper.waitForSelector(".cgIcon-hamburgerMenu",
 		function success() {
@@ -49,41 +36,41 @@ casper.test.begin('User with Instance Privilege', function(test) {
 			this.capture ("admin_fail.png");
 	});
 
-	casper.waitForSelector(x("//div[@id='detailView']/header/div/div"),
+	casper.waitForSelector("#detailView > .detailHeading > .subPanelHeading > .subPanelTitle",
 		function success() {
-			var txt = this.fetchText(x("//div[@id='detailView']/header/div/div"));
+			var txt = this.fetchText("#detailView > .detailHeading > .subPanelHeading > .subPanelTitle");
 			//this.echo (txt);
 			test.assertMatch(txt, /Institution Detail/i, 
 							 "Institution Detail is displaying");
 		},
 		function fail() {
-			test.assertExists(x("//div[@id='detailView']/header/div/div"), 
+			test.assertExists("#detailView > .detailHeading > .subPanelHeading > .subPanelTitle", 
 				"Institution Detail is NOT displaying");
 		}
 	);
 
-	casper.waitForSelector(x("//div[@id='detailView']/header/div[2]/span"),
+	casper.waitForSelector("#detailView > .detailHeading > .detailTitle > .detailTitleText",
 		function success() {
-			var txt = this.fetchText(x("//div[@id='detailView']/header/div[2]/span"));
+			var txt = this.fetchText("#detailView > .detailHeading > .detailTitle > .detailTitleText");
 			txt = txt.replace('undefined', '')
 			//this.echo (txt);
 			test.assertEqual(txt, usr.Institution, 'User\'s Institution matches');
 		},
 		function fail() {
-			test.assertExists(x("//div[@id='detailView']/header/div[2]/span"));
+			test.assertExists("#detailView > .detailHeading > .detailTitle > .detailTitleText");
 		}
 	);
 
-	casper.waitForSelector(x("//div[@id='listView']/div/div/button"),
+	casper.waitForSelector(".addListItemButton",
 		function success() {
-			test.assertExists(x("//div[@id='listView']/div/div/button"), 
+			test.assertExists(".addListItemButton", 
 				'User can create new Institutions.');
-			var txt = this.fetchText (x("//div[@id='listView']/div/div/button"));
+			var txt = this.fetchText (".addListItemButton");
 			test.assertEquals(txt, 'NEW',
 				'The new button is displayed on the UI.');
 		},
 		function fail() {
-			test.assertExists(x("//div[@id='listView']/div/div/button"), 
+			test.assertExists(".addListItemButton", 
 				'User can create new Institutions.');
 		}
 	);
