@@ -1,0 +1,2 @@
+[General]
+cookies="@Variant(\0\0\0\x7f\0\0\0\x16QList<QNetworkCookie>\0\0\0\0\x1\0\0\0\x2\0\0\0rJSESSIONID=CA166441D99459FFC66A53572A936BDA; secure; HttpOnly; domain=dev.voyager.completegenomics.com; path=/api/\0\0\0\x65\x63srf_cookie=qHFKx1ZRcDJE66ZDhqJHjiX6wFdjG4gn; secure; domain=dev.voyager.completegenomics.com; path=/)"
