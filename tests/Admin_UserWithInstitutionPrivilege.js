@@ -1,7 +1,17 @@
 /*==============================================================================*/
 /* Casper generated Thu May 21 2015 11:12:56 GMT-0700 (PDT) */
 /*==============================================================================*/
-//var require = patchRequire(require);
+/* 
+	User has the institution mananagement privilege 
+	
+	User with institution management privilege
+	- log in
+	- Admin > Institution
+
+	validation
+	- No new button 
+	- Only one record in the list (the user's institution.
+*/
 
 var x = require('casper').selectXPath;
 
@@ -70,9 +80,10 @@ casper.test.begin('User with Institution Privilege', function(test) {
 			test.assertNotExists(".addListItemButton",
 				'User can NOT be able to create new Institutions. The new button is NOT displayed on the UI.');
 
-			var txt = this.fetchText(".resultCount");
-			var institution_cnt = txt.split(" ", 1);
-			test.assertEqual(institution_cnt, 1, 
+			var institution_cnt = this.fetchText(".resultCount");
+			//this.echo (txt);
+			//var institution_cnt = txt.split(" ", 1);
+			test.assertEqual(institution_cnt, "1", 
 							'User with ONLY istitituion privilege should not see other institutions.');
 
 		},

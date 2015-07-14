@@ -2,10 +2,15 @@
 /* Casper generated Thu May 21 2015 11:12:56 GMT-0700 (PDT) 					*/
 /*==============================================================================*/
 /* 
-	Test user's privilege matches the admin menu display
+	User has the instance privilege can edit institution
+	
+	User with institution management privilege
 	- log in
-	- Admin menu check 
-	- log out
+	- Admin > Institution
+
+	validation
+	- No new button 
+	- Only one record in the list (the user's institution.
 */
 
 var x = require('casper').selectXPath;
@@ -31,15 +36,9 @@ usrs.forEach(function checkEachUser (usr){
 		
 		casper.admin ('/login.html', usr, privilege);
 
-		casper.then (function searchInstitution  () {
-			//var searchTerm = {'searchField' : "01_TestInstitute"};
-			//this.inputByFillSelectors ("form.searchForm", {'input[\'id\']=\"searchField\"':"01_TestInstitute"}, true);
-			this.inputToSelector ("#searchField", usr.Institution);
-		});
-
 		//Edit button.
 		casper.then(function clickEdit () {
-			casper.editInstitution(test);
+			this.editInstitution(test);
 		});
 
 		//validate buttons on the popup
@@ -78,57 +77,145 @@ usrs.forEach(function checkEachUser (usr){
 			});
 		});
 
+		// Get original institution name;
+		var oriInstName = '';
+		var selectorInstName = "#detailView > .detailHeading > .detailTitle > .detailTitleText";
+		casper.then(function getOriginalDescription () {
+			this.fetchSelectorText(selectorInstName, 0, function getText (instName) {
+				oriInstName = instName;
+			});
+		});
+
+		// Get original institution type;
+		var oriInstType= '';
+		var selectorInstType = ".keyValuePair";
+		casper.then(function getOriginalDescription () {
+			this.fetchSelectorTextSimple (selectorInstType, 0, function getText(instType) {
+				oriInstType = instType;
+				oriInstType = oriInstType.replace(/\s+/g, "");
+				oriInstType = oriInstType.replace(/Type:/g, "");
+			});
+		});
+		
+
+		// Get original institution description
+		var oriInstDescription = '';
+		var selectorInstDesciption = ".keyValuePair";
+		casper.then(function getOriginalDescription () {
+			this.fetchSelectorTextSimple(selectorInstDesciption, 1, function getText(instDescription) {
+				oriInstDescription = instDescription;
+				oriInstDescription = oriInstDescription.replace(/\s+Description:\s+/g, "");
+				oriInstDescription = oriInstDescription.replace(/\s+$/g, "");
+			});
+		});
+		
 		//validate edit name
 		casper.then(function validateEditName () {
 			console.log ("Validate Edit Institution Name..."); 
-			var oriName = '';
-			var selector = "#detailView > .detailHeading > .detailTitle > .detailTitleText";
-			this.fetchSelectorText(selector, 0, function getText (subPanelTitle) {
-				oriName = subPanelTitle;
-				casper.editInstitution(test);
 
-				var newName = casper.randomName (8, 'T_');
-				casper.inputByFill ('form.form-horizontal', {'name':newName});
-				//console.log ("clicksave");
-				casper.clickSelector (".btn-rounded-inverse.saveButton");
-				casper.wait(
-					5000, 
-					function then () {
-						//var selector = "#detailView > .detailHeading > .detailTitle > .detailTitleText";
-						this.fetchSelectorText(selector, 0, function getText (subPanelTitle) {
-						test.assertEquals (subPanelTitle, newName,
+			this.editInstitution(test);
+
+			var newName = randomName (8, 'T_');
+			this.inputByFill ('form.form-horizontal', {'name':newName});
+
+			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.wait(
+				5000, 
+				function then () {
+					this.fetchSelectorText(selectorInstName, 0, function getText (instName) {
+					test.assertEquals (instName, newName,
 						'Institution name is changed successfully.');
-					});
-				});
-
-				casper.editInstitution(test);
-
-				casper.inputByFill ('form.form-horizontal', {'name':oriName});
-
-				casper.clickSelector (".btn-rounded-inverse.saveButton");
-				casper.wait(
-					5000, 
-					function then () {
-						//var selector = "#detailView > .detailHeading > .detailTitle > .detailTitleText";
-						casper.fetchSelectorText(selector, 0, function getText (subPanelTitle) {
-						test.assertEquals (subPanelTitle, oriName,
-						'Institution name is changed successfully.');
-					});
 				});
 			});
-			
-			console.log ("oriName" + oriName);
-			//utils.dump (this);
-			/*var nameValue = this.getElementAttribute ("#name", 'value');
-			var element = this.getElementsInfo("#name");
-			utils.dump (element);
-			
-			test.assertEquals (nameValue, oriName, 'Name field shows pre-exisiting institution name.');
-			console.log ("nameValue" + nameValue);
-			*/
+
+			this.editInstitution(test);
+			this.inputByFill ('form.form-horizontal', {'name':oriInstName});
+			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.wait(
+				5000, 
+				function then () {
+					this.fetchSelectorText(selectorInstName, 0, function getText (instName) {
+					test.assertEquals (instName, oriInstName,
+						'Institution name is changed successfully.');
+				});
+			});
+		});
+	
+
+		//validate edit type
+		casper.then(function validateEditType () {
+			console.log ("Validate Edit Institution Type..."); 
+
+			this.editInstitution(test);
+			var newInstType = 'LSDB';
+			this.clickSelector ("a[data-option='" + DATAOPTION_MAP[newInstType] + "']");
+			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.wait(
+				5000, 
+				function then () {
+					this.fetchSelectorText(selectorInstType, 0, function getText (instType) {
+					instType = instType.replace(/\s+/g, "");
+					instType = instType.replace(/Type:/g, "");
+					test.assertEquals (instType, newInstType,
+					'Institution Type is changed successfully.');
+				});
+			});
+
+			this.editInstitution(test);
+			this.clickSelector ("a[data-option='" + DATAOPTION_MAP[oriInstType] + "']");
+			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.wait(
+				5000, 
+				function then () {
+					this.fetchSelectorText(selectorInstType, 0, function getText (instType) {
+					instType = instType.replace(/\s+/g, "");
+					instType = instType.replace(/Type:/g, "");
+					test.assertEquals (instType, oriInstType,
+					'Institution Type is changed successfully.');
+				});
+			});
 
 		});
 
+		//validate edit description
+
+		casper.then (function validateEditDescription () {
+			console.log("ori descript" + oriInstDescription);
+			
+			this.editInstitution(test);
+
+			var newInstDescription = 'changed description';
+
+			this.inputByFill ('form.form-horizontal', {'description':newInstDescription});
+
+			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.wait(
+				5000, 
+				function then () {
+					this.fetchSelectorText(selectorInstDesciption, 1, function getText (instDescription) {
+					instDescription = instDescription.replace(/\s+Description:\s+/g, "");
+					instDescription = instDescription.replace(/\s+$/g, "");
+
+					test.assertEquals (instDescription, newInstDescription,
+						'Institution Description is changed successfully.');
+					});
+				});
+
+			this.editInstitution(test);
+			this.inputByFill ('form.form-horizontal', {'description':oriInstDescription});
+			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.wait(
+				5000, 
+				function then () {
+					this.fetchSelectorText(selectorInstDesciption, 1, function getText (instDescription) {
+					instDescription = instDescription.replace(/\s+Description:\s+/g, "");
+					instDescription = instDescription.replace(/\s+$/g, "");
+
+					test.assertEquals (instDescription, oriInstDescription,
+						'Institution Description is changed successfully.');
+				});
+			});
+		});
 
 		//validate edit type
 
@@ -164,4 +251,5 @@ casper.editInstitution = function editInstitution(test) {
 				},
 				1000
 			);
+	return this;
 };

@@ -2,10 +2,12 @@
 /* Casper generated Thu May 21 2015 11:12:56 GMT-0700 (PDT) 					*/
 /*==============================================================================*/
 /* 
-	Test user's privilege matches the admin menu display
-	- log in
-	- Admin menu check 
-	- log out
+	User can create institution by 
+	- name
+	- name, different types 
+	- name, type, description
+
+	We validate the name, type, description for newly created institution
 */
 
 var x = require('casper').selectXPath;
@@ -13,9 +15,9 @@ var x = require('casper').selectXPath;
 casper.init();
 
 var inst_nameonly = new institution (casper.randomName (8, 'T_'));
-var inst_nameAndType1 = new institution (casper.randomName (8, 'T_'), 'Clinical', 'clinical-lab');
-var inst_nameAndType2 = new institution (casper.randomName (8, 'T_'), 'Research', 'research');
-var inst_nameAndTypeAndDesc = new institution (casper.randomName (8, 'T_'), 'Research', 'research', casper.randomName (255));
+var inst_nameAndType1 = new institution (casper.randomName (8, 'T_'), 'Clinical');
+var inst_nameAndType2 = new institution (casper.randomName (8, 'T_'), 'Research');
+var inst_nameAndTypeAndDesc = new institution (casper.randomName (8, 'T_'), 'Research', casper.randomName (255));
 
 var institutions = [
 	inst_nameonly,
@@ -48,36 +50,27 @@ institutions.forEach(function checkEachUser (inst) {
 		
 		// Input institution name
 		casper.then(function () {
-			//console.log ("input ");
 			this.inputByFill ('form.form-horizontal', {'name':inst.name});
 		});
 		
 		//Input institution type
 		casper.then(function () {
-			//utils.dump (inst);
-
 			if (inst.type != undefined) {
-				console.log (inst.type_dataOption);
-				casper.clickSelector ("a[data-option='" + inst.type_dataOption + "']");
+				casper.clickSelector ("a[data-option='" + DATAOPTION_MAP[inst.type] + "']");
 			}
 		});
 
 		//Input institution description
 		casper.then(function () {
-			//utils.dump (inst);
-			//console.log ("desc" + inst.description);
-
 			if (inst.description != undefined) {
 				console.log (inst.description);
 				casper.inputByFill ('form.form-horizontal', {'description':inst.description});
-				//casper.inputToSelector ('#description', inst.description);
 			}
 		});
 
 
 		// Save the institution info.
 		casper.then (function createInst() {
-			//console.log ("clicksave");
 			this.clickSelector (".btn-rounded-inverse.saveButton");
 			this.wait(
 				5000, 
@@ -114,7 +107,9 @@ institutions.forEach(function checkEachUser (inst) {
 				}
 			});
 		});
-
+		
+		casper.logout();
+		
 		casper.run(function() {slimer.clearHttpAuth(); test.done();});
 
 	});

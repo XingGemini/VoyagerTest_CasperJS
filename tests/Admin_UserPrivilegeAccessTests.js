@@ -2,10 +2,15 @@
 /* Casper generated Thu May 21 2015 11:12:56 GMT-0700 (PDT) 					*/
 /*==============================================================================*/
 /* 
-	Test user's privilege matches the admin menu display
+	User has the institution mananagement privilege 
+	
+	User with institution management privilege
 	- log in
-	- Admin menu check 
+	- Admin > "Specific Privilege"
 	- log out
+
+	validation
+	- The admin menu has the corresponding menu items
 */
 
 var x = require('casper').selectXPath;

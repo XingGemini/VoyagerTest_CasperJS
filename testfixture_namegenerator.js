@@ -15,7 +15,7 @@
  * @return String
  *   Randomly generated string.
  */
-casper.randomString = casper.randomString || function(length, prefix) {
+function randomString (length, prefix) {
 	console.log ("length " + length);
 
 	length = length || 8;
@@ -45,7 +45,7 @@ casper.randomString = casper.randomString || function(length, prefix) {
  * @return String
  *   Randomly generated string.
  */
-casper.randomName = casper.randomName || function(length, prefix) {
+function randomName(length, prefix) {
 	console.log ("Name length " + length);
 
 	length = length || 8;

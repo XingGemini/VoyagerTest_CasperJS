@@ -4,6 +4,7 @@
  * This file is included automagically by the "test" executable.
  */
 var utils = require('utils');
+var MAXWAITINGTIME = 60000;
 
 casper.init = function (path) {
 	casper.userAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:36.0) Gecko/20100101 Firefox/36.0');
@@ -50,6 +51,8 @@ casper.login = function (path, usr) {
 	var usid = usr.usrID;
 	var pwd = usr.pwd;
 	
+	console.log ("path " + cleanPath);
+	console.log ("URL " + casper.cli.get('url'));
 	casper.thenOpen(casper.cli.get('url') + '/' + cleanPath);
 
 	console.log ("Logging in as " + usid + " ...");
@@ -60,7 +63,8 @@ casper.login = function (path, usr) {
 		},
 		function fail() {
 			console.log("input[name='userName'] is not found");
-		}
+		}, 
+		MAXWAITINGTIME
 	);
 
 	casper.waitForSelector("input[name='password']",
@@ -98,7 +102,8 @@ casper.login = function (path, usr) {
 		function fail() {
 			console.log("User " +  usid + " DID NOT log in successfully.");
 			this.capture("login_fail.png");
-		}
+		},
+		MAXWAITINGTIME
 	);
 
 };
@@ -150,6 +155,8 @@ casper.admin = function (path, usr, privilege) {
 			} 
 		}
 	);
+
+	return this;
 };
 
 casper.logout = function () {
@@ -162,6 +169,8 @@ casper.logout = function () {
 		function fail() {
 			test.assertExists(x("//a[normalize-space(text())='Log Out']"));
 	});
+
+	return this;
 }
 
 
@@ -198,7 +207,7 @@ casper.clickSelector = function (selector) {
 		function fail() {
 			console.error(selector + "can NOT be found.");
 		},
-		10000
+		MAXWAITINGTIME
 	);
 	return this;
 }
@@ -220,10 +229,28 @@ casper.fetchSelectorText = function (myselector, idx, callback) {
 			console.error(myselector + "can NOT be found.");
 			callback ();
 		},
-		10000
+		MAXWAITINGTIME
 	);
 	return this;
 }
+
+casper.fetchSelectorTextSimple = function (myselector, idx, callback) {
+	this.waitForSelector (myselector,
+		function success () {
+			var elements = this.getElementsInfo(myselector)
+			var rtn_txt = elements[idx].text;
+			console.log("simple rtn " + rtn_txt );
+			callback(rtn_txt);
+		},
+		function fail () {
+			console.error(myselector + "can NOT be found.");
+			callback();
+		},
+		MAXWAITINGTIME
+	);
+	return this;
+}
+
 
 /*
  * fetchSelectorText:
@@ -241,7 +268,7 @@ casper.inputToSelector = function (myselector, str) {
 		function fail () {
 			console.error(myselector + "can NOT be found.");
 		},
-		10000
+		MAXWAITINGTIME
 	);
 	return this;
 }
@@ -258,7 +285,7 @@ casper.inputByFill= function (formselector, value, submitflag) {
 		function fail () {
 			console.error(formselector + "can NOT be found.");
 		},
-		10000
+		MAXWAITINGTIME
 	);
 	return this;
 }
@@ -275,7 +302,7 @@ casper.inputByFillSelectors = function (formselector, value, submitflag) {
 		function fail () {
 			console.error(formselector + "can NOT be found.");
 		},
-		10000
+		MAXWAITINGTIME
 	);
 	return this;
 }
