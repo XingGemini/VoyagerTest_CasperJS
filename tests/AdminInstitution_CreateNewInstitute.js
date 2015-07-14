@@ -14,10 +14,10 @@ var x = require('casper').selectXPath;
 
 casper.init();
 
-var inst_nameonly = new institution (casper.randomName (8, 'T_'));
-var inst_nameAndType1 = new institution (casper.randomName (8, 'T_'), 'Clinical');
-var inst_nameAndType2 = new institution (casper.randomName (8, 'T_'), 'Research');
-var inst_nameAndTypeAndDesc = new institution (casper.randomName (8, 'T_'), 'Research', casper.randomName (255));
+var inst_nameonly = new institution (randomName (8, 'T_'));
+var inst_nameAndType1 = new institution (randomName (8, 'T_'), 'Clinical');
+var inst_nameAndType2 = new institution (randomName (8, 'T_'), 'Research');
+var inst_nameAndTypeAndDesc = new institution (randomName (8, 'T_'), 'Research', randomName (255));
 
 var institutions = [
 	inst_nameonly,
@@ -56,7 +56,7 @@ institutions.forEach(function checkEachUser (inst) {
 		//Input institution type
 		casper.then(function () {
 			if (inst.type != undefined) {
-				casper.clickSelector ("a[data-option='" + DATAOPTION_MAP[inst.type] + "']");
+				this.clickSelector ("a[data-option='" + DATAOPTION_MAP[inst.type] + "']");
 			}
 		});
 
@@ -64,7 +64,7 @@ institutions.forEach(function checkEachUser (inst) {
 		casper.then(function () {
 			if (inst.description != undefined) {
 				console.log (inst.description);
-				casper.inputByFill ('form.form-horizontal', {'description':inst.description});
+				this.inputByFill ('form.form-horizontal', {'description':inst.description});
 			}
 		});
 
@@ -73,38 +73,38 @@ institutions.forEach(function checkEachUser (inst) {
 		casper.then (function createInst() {
 			this.clickSelector (".btn-rounded-inverse.saveButton");
 			this.wait(
-				5000, 
+				NORMALWAITINGTIME, 
 				function then () {
 					var selector = "#detailView > .detailHeading > .detailTitle > .detailTitleText";
-					casper.fetchSelectorText(selector, 0, function getText (subPanelTitle) {
-					test.assertEquals (subPanelTitle, inst.name,
-					'Newly created Institution shows its details');
-				});
+					this.fetchSelectorText(selector, 0, function getText (subPanelTitle) {
+						test.assertEquals (subPanelTitle, inst.name,
+						'Newly created Institution shows its details');
+					});
 	
-				if (inst.type != undefined) {
-					selector = ".keyValuePair";
-					casper.fetchSelectorText(selector, 0, function getText (keyValuePair) {
-						keyValuePair = keyValuePair.replace(/\s+/g, "");
-						test.assertEquals (keyValuePair, "Type:" + inst.type,
-							'Institutions type is '+ inst.type + '.');
-					});
-				} else {
-					selector = ".keyValuePair";
-					casper.fetchSelectorText(selector, 0, function getText (keyValuePair) {
-						keyValuePair = keyValuePair.replace(/\s+/g, "");
-						test.assertEquals (keyValuePair, 'Type:Individual',
-							'Default Institutions type is Individual.');
-					});
-				}
-
-				if (inst.description != undefined) {
-					selector = ".keyValuePair";
-					casper.fetchSelectorText(selector, 1, function getText (keyValuePair) {
-						keyValuePair = keyValuePair.replace(/\s+/g, "");
-						test.assertEquals (keyValuePair, "Description:" + inst.description,
-							'Institutions description matches.');
-					});
-				}
+					if (inst.type != undefined) {
+						selector = ".keyValuePair";
+						this.fetchSelectorText(selector, 0, function getText (keyValuePair) {
+							keyValuePair = keyValuePair.replace(/\s+/g, "");
+							test.assertEquals (keyValuePair, "Type:" + inst.type,
+								'Institutions type is '+ inst.type + '.');
+						});
+					} else {
+						selector = ".keyValuePair";
+						this.fetchSelectorText(selector, 0, function getText (keyValuePair) {
+							keyValuePair = keyValuePair.replace(/\s+/g, "");
+							test.assertEquals (keyValuePair, 'Type:Individual',
+								'Default Institutions type is Individual.');
+						});
+					}
+	
+					if (inst.description != undefined) {
+						selector = ".keyValuePair";
+						this.fetchSelectorText(selector, 1, function getText (keyValuePair) {
+							keyValuePair = keyValuePair.replace(/\s+/g, "");
+							test.assertEquals (keyValuePair, "Description:" + inst.description,
+								'Institutions description matches.');
+						});
+					}
 			});
 		});
 		

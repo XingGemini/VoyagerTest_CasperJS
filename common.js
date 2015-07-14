@@ -5,6 +5,8 @@
  */
 var utils = require('utils');
 var MAXWAITINGTIME = 60000;
+var NORMALWAITINGTIME = 5000;
+var NOWAITINGTIME = 10;
 
 casper.init = function (path) {
 	casper.userAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:36.0) Gecko/20100101 Firefox/36.0');
@@ -129,9 +131,6 @@ casper.admin = function (path, usr, privilege) {
 		function success() {
 			var elements = this.getElementsInfo ("#adminContainer > .submenuLink.adminCategoryLink");
 			
-			//utils.dump(elements);
-			//utils.dump(usr);
-			//console.log ("length"  + usr.Privilege.length);
 			var matchflag = 0;
 			var pvl_idx = 1;
 			for (var j = 0; j < elements.length; j++) {
@@ -201,7 +200,6 @@ casper.clickSelector = function (selector) {
 	this.waitForSelector(selector,
 		function success() {
 			console.log ("click action + " + selector);
-			utils.dump (selector);
 			this.click (selector);
 		},
 		function fail() {
@@ -222,7 +220,6 @@ casper.fetchSelectorText = function (myselector, idx, callback) {
 		function success () {
 			var elements = this.getElementsInfo(myselector)
 			var rtn_txt = elements[idx].text;
-			console.log("rtn " + rtn_txt );
 			callback (rtn_txt);
 		},
 		function fail () {
@@ -234,33 +231,14 @@ casper.fetchSelectorText = function (myselector, idx, callback) {
 	return this;
 }
 
-casper.fetchSelectorTextSimple = function (myselector, idx, callback) {
-	this.waitForSelector (myselector,
-		function success () {
-			var elements = this.getElementsInfo(myselector)
-			var rtn_txt = elements[idx].text;
-			console.log("simple rtn " + rtn_txt );
-			callback(rtn_txt);
-		},
-		function fail () {
-			console.error(myselector + "can NOT be found.");
-			callback();
-		},
-		MAXWAITINGTIME
-	);
-	return this;
-}
-
-
 /*
  * fetchSelectorText:
  *  	Validate the existance and fetch the text of the given selector
 */
-
 casper.inputToSelector = function (myselector, str) {
 	this.waitForSelector (myselector,
 		function success () {
-			console.log ("str" + str);
+			console.log ("Input string to selector" + str);
 			this.sendKeys(myselector, str);
 			this.wait (
 				2000);
@@ -296,8 +274,6 @@ casper.inputByFillSelectors = function (formselector, value, submitflag) {
 			var submit = false || submitflag
 			console.log ('form found' + formselector) ;
 			this.fillSelectors (formselector, value, submit);
-			//this.wait (
-			//	1000);
 		},
 		function fail () {
 			console.error(formselector + "can NOT be found.");
