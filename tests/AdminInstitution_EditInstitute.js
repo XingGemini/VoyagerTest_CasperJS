@@ -17,6 +17,7 @@ var x = require('casper').selectXPath;
 
 casper.init();
 
+var myBucket = new bucket ("Test", "voyager.us-east-1.completegenomics.com/sample");
 
 var usrs = [//USR00ALL, 
 			USR00INSTITUTION,
@@ -249,7 +250,11 @@ usrs.forEach(function checkEachUser (usr){
 			this.testInstTypeMatch (test, NOWAITINGTIME, selectorInstType, oriInstType);
 			this.testInstDescriptionMatch (test, NOWAITINGTIME, selectorInstDesciption, oriInstDescription);
 		});
-		
+
+		casper.then(function createBucket () {
+			console.log ("Validate creating a bucket..."); 
+			this.clickBucketDetail (test);
+		});
 		casper.logout();
 		
 		casper.run(function() {			
@@ -319,3 +324,11 @@ casper.testInstDescriptionMatch = function testInstTypeMatch (test, waitTime, se
 		});
 	});
 };
+
+casper.clickBucketDetail = function clickBucketDetail (test) {
+	this.clickSelector ("tabAdminInstitutionBucketDetail");
+	this.fetchSelectorText("blueHeader", 0, function getText (header) {
+		test.assertEquals (header, "Amazon S3 Buckets",
+				'Reached the Bucket Details Page.');
+	});
+}

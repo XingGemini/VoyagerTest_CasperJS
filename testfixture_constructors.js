@@ -22,3 +22,17 @@ function institution (name, type, description) {
 	this.type = type;
 	this.description = description;
 }
+
+// Bucket
+
+function bucket (name, bucketPath, region) {
+	this.name = name;
+	this.bucketPath = bucketPath;
+	this.region = region;
+} 
+
+function bucket (name, bucketPath) {
+	this.name = name;
+	this.bucketPath = bucketPath;
+	this.region = "US East (Northern Virginia) Region";
+} 
