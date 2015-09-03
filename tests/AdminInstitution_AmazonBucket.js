@@ -234,37 +234,3 @@ casper.clickBucketDetail = function clickBucketDetail (test) {
 	});
 };
 
-casper.validateExistanceButton = function validateExistanceButton (test, buttonSelector, buttonName) {
-	this.waitForSelector (buttonSelector,
-		function success() {
-			test.assertExists (buttonSelector, buttonName + " button prensents");
-		}, 
-		function fail() {
-			test.assertExists (buttonSelector, buttonName + " button DOES NOT prensents");
-		}
-	);
-};
-
-casper.validateClickButton = function validateClickButton (test, testString, buttonSelector, textSelector, expectedText) {
-	// Validate any button
-	console.log (testString); 
-	this.clickSelector (buttonSelector);
-	this.fetchSelectorText(textSelector, 0, function getText (actualText) {
-		actualText = actualText.replace (/^\s+/, '');
-		actualText = actualText.replace (/\s+$/, '');
-		test.assertEquals (actualText, expectedText,
-			testString + "is successful");
-	});
-};
-
-
-casper.validateText = function validateClickButton (test, testString, textSelector, expectedText) {
-	// Validate any text
-	console.log (testString); 
-	this.fetchSelectorText(textSelector, 0, function getText (actualText) {
-		actualText = actualText.replace (/^\s+/, '');
-		actualText = actualText.replace (/\s+$/, '');
-		test.assertEquals (actualText, expectedText,
-			testString + " is successful");
-	});
-};

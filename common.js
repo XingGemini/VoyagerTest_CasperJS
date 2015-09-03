@@ -320,7 +320,7 @@ casper.validateClickButton = function validateClickButton (test, testInfoString,
 		actualText = actualText.replace (/^\s+/, '');
 		actualText = actualText.replace (/\s+$/, '');
 		test.assertEquals (actualText, expectedText,
-			testString + "is successful");
+			testInfoString + "is successful");
 	});
 };
 
@@ -340,6 +340,6 @@ casper.validateText = function validateClickButton (test, testInfoString, textSe
 		actualText = actualText.replace (/^\s+/, '');
 		actualText = actualText.replace (/\s+$/, '');
 		test.assertEquals (actualText, expectedText,
-			testString + " is successful");
+			testInfoString + " is successful");
 	});
 };
