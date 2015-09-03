@@ -57,7 +57,7 @@ usrs.forEach(function checkEachUser (usr){
 					"Click the Cancel botton, Return to Administration > " + privilege);
 			});
 		});
-/*	
+	
 		// Validate x close button
 		casper.then(function validateXCloseButton () {
 			console.log ("Validate X Close button..."); 
@@ -243,8 +243,8 @@ usrs.forEach(function checkEachUser (usr){
 			this.testInstTypeMatch (test, NOWAITINGTIME, selectorInstType, oriInstType);
 			this.testInstDescriptionMatch (test, NOWAITINGTIME, selectorInstDesciption, oriInstDescription);
 		});
-*/
 
+/*
 		casper.then(function createBucket () {
 			console.log ("Validate creating a bucket..."); 
 			this.clickBucketDetail (test);
@@ -261,23 +261,23 @@ usrs.forEach(function checkEachUser (usr){
 			this.validateClickButton (test, "Validating X close Button", ".cgIcon-panelXButton.handCursored", ".blueHeader", "Amazon S3 Buckets");
 			
 			// Only Name, Error
-			/*
-			this.clickSelector (".btn-rounded-secondary"); // click add button
-			this.inputByFill ('form.form-horizontal', {'name':myBucket.name});
-			this.validateClickButton (test, "Only input name will lead to an error message ...", ".btn-rounded-inverse.saveButton",
-									".column-16.formErrorMessage", "Name field(s) are required"); // click save button
-			this.validateClickButton (test, "Validating X close Button", ".cgIcon-panelXButton.handCursored", ".blueHeader", "Amazon S3 Buckets");
-			*/
 			
-			// Only Bucket, Error
-			/*
-			this.inputByFill ('form.form-horizontal', {'name':""});
-			this.inputByFill ('form.form-horizontal', {'bucket':myBucket.bucketPath});
-			this.validateClickButton (test, "Only input name will lead to an error message ...", ".btn-rounded-inverse.saveButton",
-									".column-16.formErrorMessage", "Name field(s) are required"); // click save button
-			this.wait (
-				100000);
-			*/
+			//this.clickSelector (".btn-rounded-secondary"); // click add button
+			//this.inputByFill ('form.form-horizontal', {'name':myBucket.name});
+			//this.validateClickButton (test, "Only input name will lead to an error message ...", ".btn-rounded-inverse.saveButton",
+			//						".column-16.formErrorMessage", "Name field(s) are required"); // click save button
+			//this.validateClickButton (test, "Validating X close Button", ".cgIcon-panelXButton.handCursored", ".blueHeader", "Amazon S3 Buckets");
+			//
+			//
+			//// Only Bucket, Error
+			//
+			//this.inputByFill ('form.form-horizontal', {'name':""});
+			//this.inputByFill ('form.form-horizontal', {'bucket':myBucket.bucketPath});
+			//this.validateClickButton (test, "Only input name will lead to an error message ...", ".btn-rounded-inverse.saveButton",
+			//						".column-16.formErrorMessage", "Name field(s) are required"); // click save button
+			//this.wait (
+			//	100000);
+			
 
 			// Name + Bucket + Save validate new bucket
 			this.validateClickButton (test, "Click Add button", ".btn-rounded-secondary", ".adminGrid>.column-10", "Create New Bucket"); // click add button
@@ -289,7 +289,9 @@ usrs.forEach(function checkEachUser (usr){
 				NORMALWAITINGTIME,
 				function then () {
 					this.validateText (test, "Bucket name matching", ".gridRow:nth-child(1)>.gridColumn:nth-child(1)>.gridColumnContent", myBucket.name);
-					this.validateText (test, "Bucket address matching", ".gridRow:nth-child(1)>.gridColumn:nth-child(2)>.gridColumnContent", myBucket.bucketPath.replace(/\/.*/, ''));
+*/
+//					this.validateText (test, "Bucket address matching", ".gridRow:nth-child(1)>.gridColumn:nth-child(2)>.gridColumnContent", myBucket.bucketPath.replace(/\/.*/, ''));
+/*
 					this.validateText (test, "Bucket region matching", ".gridRow:nth-child(1)>.gridColumn:nth-child(3)>.gridColumnContent", myBucket.region);
 					this.validateText (test, "Bucket path matching", ".gridRow:nth-child(1)>.gridColumn:nth-child(4)>.gridColumnContent", myBucket.bucketPath.replace(/^\S+?\//, ''));		
 
@@ -340,6 +342,7 @@ usrs.forEach(function checkEachUser (usr){
 			});
 
 		});
+*/
 		casper.logout();
 		
 		casper.run(function() {			
@@ -417,52 +420,3 @@ casper.clickBucketDetail = function clickBucketDetail (test) {
 				'Reached the Bucket Details Page.');
 	});
 };
-
-casper.validateExistanceButton = function validateExistanceButton (test, buttonSelector, buttonName) {
-	this.waitForSelector (buttonSelector,
-		function success() {
-			test.assertExists (buttonSelector, buttonName + " button prensents");
-		}, 
-		function fail() {
-			test.assertExists (buttonSelector, buttonName + " button DOES NOT prensents");
-		}
-	);
-};
-
-casper.validateClickButton = function validateClickButton (test, testString, buttonSelector, textSelector, expectedText) {
-	// Validate any button
-	console.log (testString); 
-	this.clickSelector (buttonSelector);
-	this.fetchSelectorText(textSelector, 0, function getText (actualText) {
-		actualText = actualText.replace (/^\s+/, '');
-		actualText = actualText.replace (/\s+$/, '');
-		test.assertEquals (actualText, expectedText,
-			testString + "is successful");
-	});
-};
-
-
-casper.validateText = function validateClickButton (test, testString, textSelector, expectedText) {
-	// Validate any text
-	console.log (testString); 
-	this.fetchSelectorText(textSelector, 0, function getText (actualText) {
-		actualText = actualText.replace (/^\s+/, '');
-		actualText = actualText.replace (/\s+$/, '');
-		test.assertEquals (actualText, expectedText,
-			testString + " is successful");
-	});
-};
-/*	
-		// Validate x close button
-		casper.then(function validateXCloseButton () {
-			console.log ("Validate X Close button..."); 
-			this.editInstitution(test);
-			this.clickSelector (".cgIcon-panelXButton.handCursored");
-	
-			this.fetchSelectorText(".headerSingleText", 0, function getText (workspaceTitle) {
-				var expected_title = "Administration > " + privilege;
-				test.assertEquals (workspaceTitle, expected_title,
-					"Click the X Close botton, Return to Administration > " + privilege);
-			});
-		});
-*/

@@ -268,17 +268,3 @@ casper.validateText = function validateClickButton (test, testString, textSelect
 			testString + " is successful");
 	});
 };
-/*	
-		// Validate x close button
-		casper.then(function validateXCloseButton () {
-			console.log ("Validate X Close button..."); 
-			this.editInstitution(test);
-			this.clickSelector (".cgIcon-panelXButton.handCursored");
-	
-			this.fetchSelectorText(".headerSingleText", 0, function getText (workspaceTitle) {
-				var expected_title = "Administration > " + privilege;
-				test.assertEquals (workspaceTitle, expected_title,
-					"Click the X Close botton, Return to Administration > " + privilege);
-			});
-		});
-*/

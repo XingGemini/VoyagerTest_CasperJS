@@ -257,7 +257,7 @@ casper.inputByFill= function (formselector, value, submitflag) {
 		function success () {
 			var submit = false || submitflag
 
-			console.log ('form found' + formselector) ;
+			console.log ('form found ' + formselector) ;
 			this.fill (formselector, value, submit);
 		},
 		function fail () {
@@ -272,7 +272,7 @@ casper.inputByFillSelectors = function (formselector, value, submitflag) {
 	this.waitForSelector (formselector,
 		function success () {
 			var submit = false || submitflag
-			console.log ('form found' + formselector) ;
+			console.log ('form found ' + formselector) ;
 			this.fillSelectors (formselector, value, submit);
 		},
 		function fail () {
@@ -282,3 +282,64 @@ casper.inputByFillSelectors = function (formselector, value, submitflag) {
 	);
 	return this;
 }
+
+/* 
+	function validateExistanceButton: Validate the existance of a button
+	input
+		test: 			test handle
+		buttonSelector: CSS selector of button
+		buttonName:	 	name of the selected button
+
+*/
+casper.validateExistanceButton = function validateExistanceButton (test, buttonSelector, buttonName) {
+	this.waitForSelector (buttonSelector,
+		function success() {
+			test.assertExists (buttonSelector, buttonName + " button prensents");
+		}, 
+		function fail() {
+			test.assertExists (buttonSelector, buttonName + " button DOES NOT prensents");
+		}
+	);
+};
+
+/* 
+	function validateClickButton: Click the button and validate the given display text after a successful click
+	input
+		test: 			test handle
+		testInfoString: the string about the test is about
+		buttonSelector: CSS selector of button
+		textSelector:	CSS selector of text to validate a successful click
+		expectedText: 	expected text for the textSelector
+
+*/
+casper.validateClickButton = function validateClickButton (test, testInfoString, buttonSelector, textSelector, expectedText) {
+	// Validate any button
+	console.log (testInfoString); 
+	this.clickSelector (buttonSelector);
+	this.fetchSelectorText(textSelector, 0, function getText (actualText) {
+		actualText = actualText.replace (/^\s+/, '');
+		actualText = actualText.replace (/\s+$/, '');
+		test.assertEquals (actualText, expectedText,
+			testString + "is successful");
+	});
+};
+
+/* 
+	function validateText: Click the button and validate the given display text after a successful click
+	input
+		test: 			test handle
+		testInfoString: the string about the test is about
+		textSelector:	CSS selector of text to validate
+		expectedText: 	expected text for the textSelector
+
+*/
+casper.validateText = function validateClickButton (test, testInfoString, textSelector, expectedText) {
+	// Validate any text
+	console.log (testInfoString); 
+	this.fetchSelectorText(textSelector, 0, function getText (actualText) {
+		actualText = actualText.replace (/^\s+/, '');
+		actualText = actualText.replace (/\s+$/, '');
+		test.assertEquals (actualText, expectedText,
+			testString + " is successful");
+	});
+};
