@@ -19,7 +19,7 @@ casper.init();
 
 var myBucket = new bucket ("Test", "voyager.us-east-1.completegenomics.com/sample");
 
-var usrs = [USR00ALL, 
+var usrs = [USR00ALL,
 			//USR00INSTITUTION,
 			//USR00INSTANCE,
 			//USR00SAMPLE,

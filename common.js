@@ -199,7 +199,7 @@ casper.logout = function () {
 casper.clickSelector = function (selector) {
 	this.waitForSelector(selector,
 		function success() {
-			console.log ("click action + " + selector);
+			console.log ("\tclick action + " + selector);
 			this.click (selector);
 		},
 		function fail() {
@@ -223,7 +223,7 @@ casper.fetchSelectorText = function (myselector, idx, callback) {
 			callback (rtn_txt);
 		},
 		function fail () {
-			console.error(myselector + "can NOT be found.");
+			console.error(myselector + " can NOT be found.");
 			callback ();
 		},
 		MAXWAITINGTIME
@@ -244,7 +244,7 @@ casper.inputToSelector = function (myselector, str) {
 				2000);
 		},
 		function fail () {
-			console.error(myselector + "can NOT be found.");
+			console.error(myselector + " can NOT be found.");
 		},
 		MAXWAITINGTIME
 	);
@@ -257,7 +257,7 @@ casper.inputByFill= function (formselector, value, submitflag) {
 		function success () {
 			var submit = false || submitflag
 
-			console.log ('form found ' + formselector) ;
+			console.log ('\tform found ' + formselector) ;
 			this.fill (formselector, value, submit);
 		},
 		function fail () {
@@ -314,13 +314,13 @@ casper.validateExistanceButton = function validateExistanceButton (test, buttonS
 */
 casper.validateClickButton = function validateClickButton (test, testInfoString, buttonSelector, textSelector, expectedText) {
 	// Validate any button
-	console.log (testInfoString); 
+	//console.log (testInfoString); 
 	this.clickSelector (buttonSelector);
 	this.fetchSelectorText(textSelector, 0, function getText (actualText) {
 		actualText = actualText.replace (/^\s+/, '');
 		actualText = actualText.replace (/\s+$/, '');
 		test.assertEquals (actualText, expectedText,
-			testInfoString + "is successful");
+			testInfoString + " is successful");
 	});
 };
 
@@ -335,7 +335,7 @@ casper.validateClickButton = function validateClickButton (test, testInfoString,
 */
 casper.validateText = function validateClickButton (test, testInfoString, textSelector, expectedText) {
 	// Validate any text
-	console.log (testInfoString); 
+	//console.log (testInfoString); 
 	this.fetchSelectorText(textSelector, 0, function getText (actualText) {
 		actualText = actualText.replace (/^\s+/, '');
 		actualText = actualText.replace (/\s+$/, '');
