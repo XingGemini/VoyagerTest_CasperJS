@@ -2,15 +2,24 @@
 /* Casper generated Thu May 21 2015 11:12:56 GMT-0700 (PDT) 					*/
 /*==============================================================================*/
 /* 
-	User has the instance privilege can edit institution
+	User who has the institution privilege can edit institution
 	
 	User with institution management privilege
 	- log in
 	- Admin > Institution
+	- Institution Detail > Edit
 
 	validation
+	- Edit Institution
+		- Edit Name
+		- Edit Type 
+		- Edit Description
+		- Edit Name + Type
+		- Edit Type + Description
+		- Edit Name + Type + Description
+
 	- No new button 
-	- Only one record in the list (the user's institution.
+	- Only one record in the list (the user's institution).
 */
 
 var x = require('casper').selectXPath;
@@ -35,40 +44,8 @@ usrs.forEach(function checkEachUser (usr){
 
 		casper.start();
 		
-		casper.admin ('/login.html', usr, privilege);
-
-		//Edit button.
-		casper.then(function clickEdit () {
-			this.editInstitution(test);
-	
-			//validate buttons on the popup
-			this.validateExistanceButton (test, ".btn-rounded-inverse.saveButton", "Save");
-			this.validateExistanceButton (test, ".btn-rounded-inverse.cancelButton", "Cancel");
-			this.validateExistanceButton (test, ".cgIcon-panelXButton.handCursored", "X close");
-		});
-
-		// Validate cancel button
-		casper.then (function validateCancelButton () {
-			console.log ("Validate cancel button..."); 
-			this.clickSelector (".btn-rounded-inverse.cancelButton");
-			this.fetchSelectorText(".headerSingleText", 0, function getText (workspaceTitle) {
-				var expected_title = "Administration > " + privilege;
-				test.assertEquals (workspaceTitle, expected_title,
-					"Click the Cancel botton, Return to Administration > " + privilege);
-			});
-		});
-	
-		// Validate x close button
-		casper.then(function validateXCloseButton () {
-			console.log ("Validate X Close button..."); 
-			this.editInstitution(test);
-			this.clickSelector (".cgIcon-panelXButton.handCursored");
-	
-			this.fetchSelectorText(".headerSingleText", 0, function getText (workspaceTitle) {
-				var expected_title = "Administration > " + privilege;
-				test.assertEquals (workspaceTitle, expected_title,
-					"Click the X Close botton, Return to Administration > " + privilege);
-			});
+		casper.then (function setup () {
+			casper.admin ('/login.html', usr, privilege);
 		});
 
 		// Get original institution name;
@@ -107,7 +84,7 @@ usrs.forEach(function checkEachUser (usr){
 		casper.then(function validateEditName () {
 			console.log ("Validate Edit Institution Name..."); 
 
-			this.editInstitution(test);
+			this.editInstitution (test);
 
 			var newName = randomName (8, 'T_');
 			this.inputByFill ('form.form-horizontal', {'name':newName});
@@ -251,29 +228,6 @@ usrs.forEach(function checkEachUser (usr){
 			test.done();});
 	});
 });
-
-casper.editInstitution = function editInstitution(test) {
-	this.clickSelector (".cgIcon-editBtn");
-
-	var editOptionSelector = "a[data-option=\'edit\']";
-		
-	this.waitForSelector ( editOptionSelector, 
-		function success() {
-			this.fetchSelectorText(editOptionSelector, 0,
-				function validation (returntxt) {
-					test.assertEqual (returntxt, 
-								 'Edit Institution', 
-								 'Edit institution option exists.');
-					});
-					this.click(editOptionSelector);
-				},
-				function fail() {
-					console.error (editOptionSelector + " can not be found.");
-				},
-				1000
-			);
-	return this;
-};
 
 casper.testInstNameMatch = function testInstNameMatch (test, waitTime, selectorInstName, nameToCheck) {
 	this.wait(
