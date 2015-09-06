@@ -62,12 +62,12 @@ institutions.forEach(function checkEachInstitute (inst) {
 			console.log ("Verify Create a new institution...")
  				
 			// click new button
-			this.validateClickButton (test, "Click New button", ".addListItemButton", ".adminGrid>.column-10", "Create New Institution"); // click add button
+			this.verifyClickDOM (test, "Click New button", S_NEWITEMBUTTON, S_POPUPTITLE, "Create New Institution"); // click add button
 			// Input institution name
 			this.inputByFill ('form.form-horizontal', {'name':inst.name});
 			//Input institution type
 			if (inst.type != undefined) {
-				this.clickSelector ("a[data-option='" + DATAOPTION_MAP[inst.type] + "']");
+				this.clickDOM ("a[data-option='" + DATAOPTION_MAP[inst.type] + "']");
 			}
 			//Input institution description
 			if (inst.description != undefined) {
@@ -75,29 +75,26 @@ institutions.forEach(function checkEachInstitute (inst) {
 			}
 
 			// click save button
-			this.validateClickButton (test, "Click Save Button", ".btn-rounded-inverse.saveButton", ".adminGrid>.column-10", "Create New Institution");
+			this.verifyClosePopup (test, "Click Save Button", S_SAVEBUTTON, S_POPUPTITLE);
 			// Save the institution info.
 			casper.then (function verifyNameTypeDesc() {
-				//this.clickSelector (".btn-rounded-inverse.saveButton");
+				//this.clickDOM (S_SAVEBUTTON);
 				this.wait(
 					NORMALWAITINGTIME, 
 					function then () {
-						var selector = "#detailView > .detailHeading > .detailTitle > .detailTitleText";
-						this.fetchSelectorText(selector, 0, function getText (subPanelTitle) {
-							test.assertEquals (subPanelTitle, inst.name,
+						this.fetchDOMText(S_DETAILTITLE, 0, function getText (detailTitle) {
+							test.assertEquals (detailTitle, inst.name,
 							'Newly created Institution shows its details');
 						});
 		
 						if (inst.type != undefined) {
-							selector = ".keyValuePair";
-							this.fetchSelectorText(selector, 0, function getText (keyValuePair) {
+							this.fetchDOMText(S_KEYVALUEPAIR, 0, function getText (keyValuePair) {
 								keyValuePair = keyValuePair.replace(/\s+/g, "");
 								test.assertEquals (keyValuePair, "Type:" + inst.type,
 									'Institutions type is '+ inst.type + '.');
 							});
 						} else {
-							selector = ".keyValuePair";
-							this.fetchSelectorText(selector, 0, function getText (keyValuePair) {
+							this.fetchDOMText(S_KEYVALUEPAIR, 0, function getText (keyValuePair) {
 								keyValuePair = keyValuePair.replace(/\s+/g, "");
 								test.assertEquals (keyValuePair, 'Type:Individual',
 									'Default Institutions type is Individual.');
@@ -105,8 +102,7 @@ institutions.forEach(function checkEachInstitute (inst) {
 						}
 		
 						if (inst.description != undefined) {
-							selector = ".keyValuePair";
-							this.fetchSelectorText(selector, 1, function getText (keyValuePair) {
+							this.fetchDOMText(S_KEYVALUEPAIR, 1, function getText (keyValuePair) {
 								keyValuePair = keyValuePair.replace(/\s+/g, "");
 								test.assertEquals (keyValuePair, "Description:" + inst.description,
 									'Institutions description matches.');

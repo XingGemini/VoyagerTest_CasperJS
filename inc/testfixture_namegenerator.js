@@ -57,3 +57,10 @@ function randomName(length, prefix) {
 	}
 	return prefix+str;
 };
+
+function cleanString (string) {
+	string = string.replace (/^\s+/, "");
+	string = string.replace (/\s+$/, "");
+
+	return string;
+};

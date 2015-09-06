@@ -46,20 +46,20 @@ usrs.forEach(function checkEachUser (usr){
 
 		//Edit button.
 		casper.then(function clickEdit () {
-			this.validateClickButton (test, "Click Pen button", ".cgIcon-editBtn", "a[data-option=\'edit\']", "Edit Institution"); // click pen button
-			this.validateClickButton (test, "Click Edit Option", "a[data-option=\'edit\']", ".adminGrid>.column-10", "Edit Institution"); // click edit option
+			this.verifyClickDOM (test, "Click Pen button", ".cgIcon-editBtn", "a[data-option=\'edit\']", "Edit Institution"); // click pen button
+			this.verifyClickDOM (test, "Click Edit Option", "a[data-option=\'edit\']", S_POPUPTITLE, "Edit Institution"); // click edit option
 		
 			//validate buttons on the popup
-			this.validateExistanceButton (test, ".btn-rounded-inverse.saveButton", "Save");
-			this.validateExistanceButton (test, ".btn-rounded-inverse.cancelButton", "Cancel");
-			this.validateExistanceButton (test, ".cgIcon-panelXButton.handCursored", "X close");				
-			this.validateClickButton (test, "Validating Cancel Button", ".btn-rounded-inverse.cancelButton", ".headerSingleText", "Administration > " + privilege);
+			this.verifyExistanceDOM (test, "Verify existance of Save button", S_SAVEBUTTON);
+			this.verifyExistanceDOM (test, "Verify existance of Cancel button", S_CANCELBUTTON);
+			this.verifyExistanceDOM (test, "Verify existance of X Close button", S_XCLOSEBUTTON);
+			this.verifyClosePopup (test, "Validating Cancel Button", S_CANCELBUTTON, S_POPUPTITLE);
 
 			this.wait (SHORTWAITINGTIME);				
-			this.validateClickButton (test, "Click Pen button", ".cgIcon-editBtn", "a[data-option=\'edit\']", "Edit Institution"); // click pen button
-			this.validateClickButton (test, "Click Edit Option", "a[data-option=\'edit\']", ".adminGrid>.column-10", "Edit Institution"); // click edit option
+			this.verifyClickDOM (test, "Click Pen button", ".cgIcon-editBtn", "a[data-option=\'edit\']", "Edit Institution"); // click pen button
+			this.verifyClickDOM (test, "Click Edit Option", "a[data-option=\'edit\']", S_POPUPTITLE, "Edit Institution"); // click edit option
 			this.wait (SHORTWAITINGTIME);
-			this.validateClickButton (test, "Validating X close Button", ".cgIcon-panelXButton.handCursored", ".headerSingleText", "Administration > " + privilege);
+			this.verifyClosePopup (test, "Validating X close Button", S_XCLOSEBUTTON, S_POPUPTITLE);
 
 		});
 	

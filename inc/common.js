@@ -6,7 +6,7 @@
 var utils = require('utils');
 var MAXWAITINGTIME = 60000;
 var NORMALWAITINGTIME = 5000;
-var SHORTWAITINGTIME = 1000;
+var SHORTWAITINGTIME = 2000;
 var NOWAITINGTIME = 10;
 
 casper.init = function (path) {
@@ -44,11 +44,11 @@ casper.thenOpenPath = function (path, thenCallback) {
 
 // Generalized Operations
 /*
- * clickSelector:
- *  	Validate the existance and click the given elector
+ * clickDOM:
+ *  	verify the existance and click the given elector
  */
 
-casper.clickSelector = function (selector) {
+casper.clickDOM = function (selector) {
 	this.waitForSelector(selector,
 		function success() {
 			console.log ("\tclick action + " + selector);
@@ -64,10 +64,10 @@ casper.clickSelector = function (selector) {
 
 /*
  * fetchSelectorText:
- *  	Validate the existance and fetch the text of the given selector
+ *  	verify the existance and fetch the text of the given selector
 */
 
-casper.fetchSelectorText = function (myselector, idx, callback) {
+casper.fetchDOMText = function (myselector, idx, callback) {
 	this.waitForSelector (myselector,
 		function success () {
 			var elements = this.getElementsInfo(myselector)
@@ -85,7 +85,7 @@ casper.fetchSelectorText = function (myselector, idx, callback) {
 
 /*
  * fetchSelectorText:
- *  	Validate the existance and fetch the text of the given selector
+ *  	verify the existance and fetch the text of the given selector
 */
 casper.inputToSelector = function (myselector, str) {
 	this.waitForSelector (myselector,
@@ -136,62 +136,101 @@ casper.inputByFillSelectors = function (formselector, value, submitflag) {
 }
 
 /* 
-	function validateExistanceButton: Validate the existance of a button
+	function verifyExistanceDOM: verify the existance of a button
 	input
 		test: 			test handle
-		buttonSelector: CSS selector of button
-		buttonName:	 	name of the selected button
-
+		testInfoString: the string about the test is about
+		selector: 		CSS selector of DOM
 */
-casper.validateExistanceButton = function validateExistanceButton (test, buttonSelector, buttonName) {
-	this.waitForSelector (buttonSelector,
+casper.verifyExistanceDOM = function verifyExistanceDOM (test, testInfoString, selector) {
+	this.waitForSelector (selector,
 		function success() {
-			test.assertExists (buttonSelector, buttonName + " button prensents");
+			test.assertExists (selector, testInfoString);
 		}, 
 		function fail() {
-			test.assertExists (buttonSelector, buttonName + " button DOES NOT prensents");
+			test.assertExists (selector, testInfoString);
+		}
+	);
+};
+
+
+/* 
+	function verifyNotExistanceDOM: verify the existance of a button
+	input
+		test: 			test handle
+		testInfoString: the string about the test is about
+		selector: 		CSS selector of DOM
+*/
+casper.verifyDoesntExistanceDOM = function verifyNonExistanceDOM (test, testInfoString, selector) {
+	this.waitForSelector (selector,
+		function success() {
+			test.assertDoesntExist (selector, testInfoString);
+		}, 
+		function fail() {
+			test.assertDoesntExist (selector, testInfoString);
 		}
 	);
 };
 
 /* 
-	function validateClickButton: Click the button and validate the given display text after a successful click
+	function verifyClickDOM: Click the button and verify the given display text after a successful click
 	input
 		test: 			test handle
 		testInfoString: the string about the test is about
-		buttonSelector: CSS selector of button
-		textSelector:	CSS selector of text to validate a successful click
+		selector: CSS selector of DOM
+		textSelector:	CSS selector of text to verify a successful click
 		expectedText: 	expected text for the textSelector
 
 */
-casper.validateClickButton = function validateClickButton (test, testInfoString, buttonSelector, textSelector, expectedText) {
-	// Validate any button
+casper.verifyClickDOM = function verifyClickDOM (test, testInfoString, selector, textSelector, expectedText) {
+	// 
 	//console.log (testInfoString); 
-	this.clickSelector (buttonSelector);
-	this.fetchSelectorText(textSelector, 0, function getText (actualText) {
+	this.clickDOM (selector);
+	this.fetchDOMText(textSelector, 0, function getText (actualText) {
 		actualText = actualText.replace (/^\s+/, '');
 		actualText = actualText.replace (/\s+$/, '');
-		test.assertEquals (actualText, expectedText,
-			testInfoString + " is successful");
+		test.assertEquals (actualText, expectedText, testInfoString);
 	});
 };
 
 /* 
-	function validateText: Click the button and validate the given display text after a successful click
+	function verifyClosePopup: Click the button and verify that the popup window is successfully clossed
 	input
 		test: 			test handle
 		testInfoString: the string about the test is about
-		textSelector:	CSS selector of text to validate
+		selector: CSS selector of DOM
+		popupSelector:	CSS selector on pop up windows
+
+*/
+casper.verifyClosePopup = function verifyClosePopup (test, testInfoString, selector, popupSelector) {
+	// 
+	//console.log (testInfoString); 
+	this.clickDOM (selector);
+	this.wait (
+		NORMALWAITINGTIME,
+
+		function then () {
+			test.assertDoesntExist (popupSelector, testInfoString);
+	});
+};
+
+
+/* 
+	function verifyText: Click the button and verify the given display text after a successful click
+	input
+		test: 			test handle
+		testInfoString: the string about the test is about
+		textSelector:	CSS selector of text to verify
 		expectedText: 	expected text for the textSelector
 
 */
-casper.validateText = function validateClickButton (test, testInfoString, textSelector, expectedText) {
-	// Validate any text
+casper.verifyText = function verifyText (test, testInfoString, textSelector, expectedText) {
+	// verify any text
 	//console.log (testInfoString); 
-	this.fetchSelectorText(textSelector, 0, function getText (actualText) {
+	this.fetchDOMText(textSelector, 0, function getText (actualText) {
 		actualText = actualText.replace (/^\s+/, '');
 		actualText = actualText.replace (/\s+$/, '');
 		test.assertEquals (actualText, expectedText,
-			testInfoString + " is successful");
+			testInfoString);
 	});
 };

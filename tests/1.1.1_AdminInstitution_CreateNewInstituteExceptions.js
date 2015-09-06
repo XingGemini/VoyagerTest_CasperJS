@@ -31,9 +31,9 @@ var inst_nameAndTypeAndDesc = new institution (randomName (8, 'T_'), 'Research',
 
 var institutions = [
 	inst_nameonly,
-	inst_nameAndType1,
-	inst_nameAndType2,
-	inst_nameAndTypeAndDesc
+	//inst_nameAndType1,
+	//inst_nameAndType2,
+	//inst_nameAndTypeAndDesc
 			];
 
 institutions.forEach(function checkEachInstitute (inst) {
@@ -60,16 +60,16 @@ institutions.forEach(function checkEachInstitute (inst) {
 			casper.then (function checkCreateInstitutePopup () {
 				console.log ("Check Create New Institute Popup ..."); 
 				
-				this.validateClickButton (test, "Click New button", ".addListItemButton", ".adminGrid>.column-10", "Create New Institution"); // click add button
-				this.validateExistanceButton (test, ".btn-rounded-inverse.saveButton", "Save");
-				this.validateExistanceButton (test, ".btn-rounded-inverse.cancelButton", "Cancel");
-				this.validateExistanceButton (test, ".cgIcon-panelXButton.handCursored", "X close");
-				this.validateClickButton (test, "Validating Cancel Button", ".btn-rounded-inverse.cancelButton", ".adminGrid>.column-10", "Create New Institution");
+				this.verifyClickDOM (test, "Click New button", S_NEWITEMBUTTON, S_POPUPTITLE, "Create New Institution"); // click add button
+				this.verifyExistanceDOM (test, "Verify existance of Save button", S_SAVEBUTTON);
+				this.verifyExistanceDOM (test, "Verify existance of Cancel button", S_CANCELBUTTON);
+				this.verifyExistanceDOM (test, "Verify existance of X Close button", S_XCLOSEBUTTON);
+				this.verifyClosePopup (test, "Validating Cancel Button", S_CANCELBUTTON, S_POPUPTITLE);
 
 				this.wait (SHORTWAITINGTIME);				
-				this.validateClickButton (test, "Click New button", ".addListItemButton", ".adminGrid>.column-10", "Create New Institution"); // click add button
+				this.verifyClickDOM (test, "Click New button", S_NEWITEMBUTTON, S_POPUPTITLE, "Create New Institution"); // click add button
 				this.wait (SHORTWAITINGTIME);
-				this.validateClickButton (test, "Validating X close Button", ".cgIcon-panelXButton.handCursored", ".adminGrid>.column-10", "Create New Institution");
+				this.verifyClosePopup (test, "Validating X close Button", S_XCLOSEBUTTON, S_POPUPTITLE);
 			});
 
 			// Missing Name

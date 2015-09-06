@@ -50,18 +50,18 @@ usrs.forEach(function checkEachUser (usr){
 
 		// Get original institution name;
 		var oriInstName = '';
-		var selectorInstName = "#detailView > .detailHeading > .detailTitle > .detailTitleText";
+		var selectorInstName = S_DETAILTITLE;
 		casper.then(function getOriginalDescription () {
-			this.fetchSelectorText(selectorInstName, 0, function getText (instName) {
+			this.fetchDOMText(selectorInstName, 0, function getText (instName) {
 				oriInstName = instName;
 			});
 		});
 
 		// Get original institution type;
 		var oriInstType= '';
-		var selectorInstType = ".keyValuePair";
+		var selectorInstType = S_KEYVALUEPAIR;
 		casper.then(function getOriginalDescription () {
-			this.fetchSelectorText (selectorInstType, 0, function getText(instType) {
+			this.fetchDOMText (selectorInstType, 0, function getText(instType) {
 				oriInstType = instType;
 				oriInstType = oriInstType.replace(/\s+/g, "");
 				oriInstType = oriInstType.replace(/Type:/g, "");
@@ -71,9 +71,9 @@ usrs.forEach(function checkEachUser (usr){
 
 		// Get original institution description
 		var oriInstDescription = '';
-		var selectorInstDesciption = ".keyValuePair";
+		var selectorInstDesciption = S_KEYVALUEPAIR;
 		casper.then(function getOriginalDescription () {
-			this.fetchSelectorText (selectorInstDesciption, 1, function getText(instDescription) {
+			this.fetchDOMText (selectorInstDesciption, 1, function getText(instDescription) {
 				oriInstDescription = instDescription;
 				oriInstDescription = oriInstDescription.replace(/\s+Description:\s+/g, "");
 				oriInstDescription = oriInstDescription.replace(/\s+$/g, "");
@@ -84,17 +84,17 @@ usrs.forEach(function checkEachUser (usr){
 		casper.then(function validateEditName () {
 			console.log ("Validate Edit Institution Name..."); 
 
-			this.editInstitution (test);
+			casper.editInstitution (test);
 
 			var newName = randomName (8, 'T_');
 			this.inputByFill ('form.form-horizontal', {'name':newName});
 
-			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.clickDOM (S_SAVEBUTTON);
 			this.testInstNameMatch (test, NORMALWAITINGTIME, selectorInstName, newName);
 
 			this.editInstitution(test);
 			this.inputByFill ('form.form-horizontal', {'name':oriInstName});
-			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.clickDOM (S_SAVEBUTTON);
 			this.testInstNameMatch (test, NORMALWAITINGTIME, selectorInstName, oriInstName);
 		});
 	
@@ -105,13 +105,13 @@ usrs.forEach(function checkEachUser (usr){
 
 			this.editInstitution(test);
 			var newInstType = 'LSDB';
-			this.clickSelector ("a[data-option='" + DATAOPTION_MAP[newInstType] + "']");
-			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.clickDOM ("a[data-option='" + DATAOPTION_MAP[newInstType] + "']");
+			this.clickDOM (S_SAVEBUTTON);
 			this.testInstTypeMatch (test, NORMALWAITINGTIME, selectorInstType, newInstType);
 
 			this.editInstitution(test);
-			this.clickSelector ("a[data-option='" + DATAOPTION_MAP[oriInstType] + "']");
-			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.clickDOM ("a[data-option='" + DATAOPTION_MAP[oriInstType] + "']");
+			this.clickDOM (S_SAVEBUTTON);
 			this.testInstTypeMatch (test, NORMALWAITINGTIME, selectorInstType, oriInstType);
 		});
 		
@@ -125,13 +125,13 @@ usrs.forEach(function checkEachUser (usr){
 			var newInstDescription = 'changed description';
 
 			this.inputByFill ('form.form-horizontal', {'description':newInstDescription});
-			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.clickDOM (S_SAVEBUTTON);
 			this.testInstDescriptionMatch (test, NORMALWAITINGTIME, selectorInstDesciption, newInstDescription);
 		
 
 			this.editInstitution(test);
 			this.inputByFill ('form.form-horizontal', {'description':oriInstDescription});
-			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.clickDOM (S_SAVEBUTTON);
 			this.testInstDescriptionMatch (test, NORMALWAITINGTIME, selectorInstDesciption, oriInstDescription);
 		});
 
@@ -147,9 +147,9 @@ usrs.forEach(function checkEachUser (usr){
 			var newInstDescription = 'changed description';
 
 			this.inputByFill ('form.form-horizontal', {'name':newName});
-			this.clickSelector ("a[data-option='" + DATAOPTION_MAP[newInstType] + "']");
+			this.clickDOM ("a[data-option='" + DATAOPTION_MAP[newInstType] + "']");
 			this.inputByFill ('form.form-horizontal', {'description':newInstDescription});
-			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.clickDOM (S_SAVEBUTTON);
 
 			this.testInstNameMatch (test, NORMALWAITINGTIME, selectorInstName, newName);
 			this.testInstTypeMatch (test, NOWAITINGTIME, selectorInstType, newInstType);
@@ -157,9 +157,9 @@ usrs.forEach(function checkEachUser (usr){
 
 			this.editInstitution(test);
 			this.inputByFill ('form.form-horizontal', {'name':oriInstName});
-			this.clickSelector ("a[data-option='" + DATAOPTION_MAP[oriInstType] + "']");
+			this.clickDOM ("a[data-option='" + DATAOPTION_MAP[oriInstType] + "']");
 			this.inputByFill ('form.form-horizontal', {'description':oriInstDescription});
-			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.clickDOM (S_SAVEBUTTON);
 			
 			this.testInstNameMatch (test, NORMALWAITINGTIME, selectorInstName, oriInstName);
 			this.testInstTypeMatch (test, NOWAITINGTIME, selectorInstType, oriInstType);
@@ -175,18 +175,18 @@ usrs.forEach(function checkEachUser (usr){
 			var newInstType = 'LSDB';
 			var newInstDescription = 'changed description';
 
-			this.clickSelector ("a[data-option='" + DATAOPTION_MAP[newInstType] + "']");
+			this.clickDOM ("a[data-option='" + DATAOPTION_MAP[newInstType] + "']");
 			this.inputByFill ('form.form-horizontal', {'description':newInstDescription});
-			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.clickDOM (S_SAVEBUTTON);
 
 			this.testInstNameMatch (test, NORMALWAITINGTIME, selectorInstName, oriInstName);
 			this.testInstTypeMatch (test, NOWAITINGTIME, selectorInstType, newInstType);
 			this.testInstDescriptionMatch (test, NOWAITINGTIME, selectorInstDesciption, newInstDescription);
 
 			this.editInstitution(test);
-			this.clickSelector ("a[data-option='" + DATAOPTION_MAP[oriInstType] + "']");
+			this.clickDOM ("a[data-option='" + DATAOPTION_MAP[oriInstType] + "']");
 			this.inputByFill ('form.form-horizontal', {'description':oriInstDescription});
-			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.clickDOM (S_SAVEBUTTON);
 
 			this.testInstNameMatch (test, NORMALWAITINGTIME, selectorInstName, oriInstName);
 			this.testInstTypeMatch (test, NOWAITINGTIME, selectorInstType, oriInstType);
@@ -203,8 +203,8 @@ usrs.forEach(function checkEachUser (usr){
 			var newInstType = 'LSDB';
 
 			this.inputByFill ('form.form-horizontal', {'name':newName});
-			this.clickSelector ("a[data-option='" + DATAOPTION_MAP[newInstType] + "']");
-			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.clickDOM ("a[data-option='" + DATAOPTION_MAP[newInstType] + "']");
+			this.clickDOM (S_SAVEBUTTON);
 
 			this.testInstNameMatch (test, NORMALWAITINGTIME, selectorInstName, newName);
 			this.testInstTypeMatch (test, NOWAITINGTIME, selectorInstType, newInstType);
@@ -212,9 +212,9 @@ usrs.forEach(function checkEachUser (usr){
 
 			this.editInstitution(test);
 			this.inputByFill ('form.form-horizontal', {'name':oriInstName});
-			this.clickSelector ("a[data-option='" + DATAOPTION_MAP[oriInstType] + "']");
+			this.clickDOM ("a[data-option='" + DATAOPTION_MAP[oriInstType] + "']");
 			this.inputByFill ('form.form-horizontal', {'description':oriInstDescription});
-			this.clickSelector (".btn-rounded-inverse.saveButton");
+			this.clickDOM (S_SAVEBUTTON);
 
 			this.testInstNameMatch (test, NORMALWAITINGTIME, selectorInstName, oriInstName);
 			this.testInstTypeMatch (test, NOWAITINGTIME, selectorInstType, oriInstType);
@@ -233,7 +233,7 @@ casper.testInstNameMatch = function testInstNameMatch (test, waitTime, selectorI
 	this.wait(
 		waitTime, 
 		function then () {
-			this.fetchSelectorText(selectorInstName, 0, function getText (instName) {
+			this.fetchDOMText(selectorInstName, 0, function getText (instName) {
 			test.assertEquals (instName, nameToCheck,
 				'Institution name is changed successfully.');
 		});
@@ -245,7 +245,7 @@ casper.testInstTypeMatch = function testInstTypeMatch (test, waitTime, selectorI
 	this.wait(
 		waitTime, 
 		function then () {
-			this.fetchSelectorText(selectorInstType, 0, function getText (instType) {
+			this.fetchDOMText(selectorInstType, 0, function getText (instType) {
 			instType = instType.replace(/\s+/g, "");
 			instType = instType.replace(/Type:/g, "");
 			test.assertEquals (instType, typeToCheck,
@@ -259,7 +259,7 @@ casper.testInstDescriptionMatch = function testInstTypeMatch (test, waitTime, se
 	this.wait(
 		waitTime, 
 		function then () {
-			this.fetchSelectorText(selectorInstDesciption, 1, function getText (instDescription) {
+			this.fetchDOMText(selectorInstDesciption, 1, function getText (instDescription) {
 			instDescription = instDescription.replace(/\s+Description:\s+/g, "");
 			instDescription = instDescription.replace(/\s+$/g, "")
 			test.assertEquals (instDescription, descriptionToCheck,
@@ -269,8 +269,8 @@ casper.testInstDescriptionMatch = function testInstTypeMatch (test, waitTime, se
 };
 
 casper.clickBucketDetail = function clickBucketDetail (test) {
-	this.clickSelector ("#tabAdminInstitutionBucketDetail");
-	this.fetchSelectorText(".blueHeader", 0, function getText (header) {
+	this.clickDOM ("#tabAdminInstitutionBucketDetail");
+	this.fetchDOMText(S_BLUEHEADER, 0, function getText (header) {
 		test.assertEquals (header, "Amazon S3 Buckets",
 				'Reached the Bucket Details Page.');
 	});
