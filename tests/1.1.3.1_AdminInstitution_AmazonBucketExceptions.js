@@ -60,23 +60,14 @@ usrs.forEach(function checkEachUser (usr){
 			casper.then(function checkCreateBucketPopup () {
 				console.log ("Check Create New Bucket Popup ..."); 
 				
-				this.verifyClickDOM (test, "Click Add button", S_ADDBUTTON, S_POPUPTITLE, "Create New Bucket"); // click add button
-				this.verifyExistanceDOM (test, "Verify existance of Save button", S_SAVEBUTTON);
-				this.verifyExistanceDOM (test, "Verify existance of Cancel button", S_CANCELBUTTON);
-				this.verifyExistanceDOM (test, "Verify existance of X Close button", S_XCLOSEBUTTON);
-				this.verifyClosePopup (test, "Validating Cancel Button", S_CANCELBUTTON, S_POPUPTITLE);
-	
-				this.wait (SHORTWAITINGTIME);
-				this.verifyClickDOM (test, "Click Add button", S_ADDBUTTON, S_POPUPTITLE, "Create New Bucket"); // click add button
-				this.wait (SHORTWAITINGTIME);
-				this.verifyClosePopup (test, "Validating X close Button", S_XCLOSEBUTTON, S_POPUPTITLE);
+				this.verifyButtonsOnPopUp (test, S_ADDBUTTON, "Create New Bucket");
 			});
  			
 			casper.then (function createButcketExceptionMissingAddress() {
 				console.log ("Verify the exception of missing address when creating a new Bucket only with name..."); 
 
 				this.verifyClickDOM (test, "Click Add button", S_ADDBUTTON, S_POPUPTITLE, "Create New Bucket"); // click add button
-				this.inputByFill ('form.form-horizontal', {'name':myBucket.name});
+				this.inputByFill (S_INPUTTABLE, {'name':myBucket.name});
 				this.verifyClickDOM (test, "Only input name will lead to an error message ...", S_SAVEBUTTON,
 										".column-16.formErrorMessage", "Name field(s) are required"); // click save button
 				this.verifyClickDOM (test, "Validating X close Button", S_XCLOSEBUTTON, S_BLUEHEADER, "Amazon S3 Buckets");
@@ -84,8 +75,8 @@ usrs.forEach(function checkEachUser (usr){
 
 			// Only Bucket, Error
 			/*
-			this.inputByFill ('form.form-horizontal', {'name':""});
-			this.inputByFill ('form.form-horizontal', {'bucket':myBucket.bucketPath});
+			this.inputByFill (S_INPUTTABLE, {'name':""});
+			this.inputByFill (S_INPUTTABLE, {'bucket':myBucket.bucketPath});
 			this.verifyClickDOM (test, "Only input name will lead to an error message ...", S_SAVEBUTTON,
 									".column-16.formErrorMessage", "Name field(s) are required"); // click save button
 			this.wait (

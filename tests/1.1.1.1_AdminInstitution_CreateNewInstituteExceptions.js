@@ -60,16 +60,7 @@ institutions.forEach(function checkEachInstitute (inst) {
 			casper.then (function checkCreateInstitutePopup () {
 				console.log ("Check Create New Institute Popup ..."); 
 				
-				this.verifyClickDOM (test, "Click New button", S_NEWITEMBUTTON, S_POPUPTITLE, "Create New Institution"); // click add button
-				this.verifyExistanceDOM (test, "Verify existance of Save button", S_SAVEBUTTON);
-				this.verifyExistanceDOM (test, "Verify existance of Cancel button", S_CANCELBUTTON);
-				this.verifyExistanceDOM (test, "Verify existance of X Close button", S_XCLOSEBUTTON);
-				this.verifyClosePopup (test, "Validating Cancel Button", S_CANCELBUTTON, S_POPUPTITLE);
-
-				this.wait (SHORTWAITINGTIME);				
-				this.verifyClickDOM (test, "Click New button", S_NEWITEMBUTTON, S_POPUPTITLE, "Create New Institution"); // click add button
-				this.wait (SHORTWAITINGTIME);
-				this.verifyClosePopup (test, "Validating X close Button", S_XCLOSEBUTTON, S_POPUPTITLE);
+				this.verifyButtonsOnPopUp (test, S_NEWITEMBUTTON, "Create New Institution");
 			});
 
 			// Missing Name

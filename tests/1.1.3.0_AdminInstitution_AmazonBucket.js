@@ -62,8 +62,8 @@ usrs.forEach(function checkEachUser (usr){
 				console.log ("Verify Create a new Bucket with name and address ..."); 
 				
 				this.verifyClickDOM (test, "Click Add button", S_ADDBUTTON, S_POPUPTITLE, "Create New Bucket"); // click add button
-				this.inputByFill ('form.form-horizontal', {'name':myBucket.name});
-				this.inputByFill ('form.form-horizontal', {'bucket':myBucket.bucketPath});
+				this.inputByFill (S_INPUTTABLE, {'name':myBucket.name});
+				this.inputByFill (S_INPUTTABLE, {'bucket':myBucket.bucketPath});
 				this.verifyClosePopup (test, "Click Save Button", S_SAVEBUTTON, S_POPUPTITLE);
 			
 				this.wait (
@@ -123,7 +123,7 @@ usrs.forEach(function checkEachUser (usr){
 
 
 	
-				this.inputByFill ('form.form-horizontal', {'name':newBucketName});
+				this.inputByFill (S_INPUTTABLE, {'name':newBucketName});
 				this.verifyClosePopup (test, "Click Save Button", S_SAVEBUTTON, S_POPUPTITLE);
 				this.wait (
 					NORMALWAITINGTIME,

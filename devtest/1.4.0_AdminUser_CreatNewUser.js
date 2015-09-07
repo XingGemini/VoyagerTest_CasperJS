@@ -45,41 +45,12 @@ newusers.forEach(function checkEachNewUser (newUsr){
 		
 		casper.admin ('/login.html', usr, privilege);
 
-		//New button.
-		casper.then(function clickNew () {
-
-			// click new button
-			this.validateExistanceButton (test, ".addListItemButton", "New");
-
-			this.validateClickButton (test, "Click the new button ...", ".addListItemButton", ".column-10>h1", "Create New User");
-
-			this.validateExistanceButton (test, ".btn-rounded-inverse.saveButton", "Save");
-			this.validateExistanceButton (test, ".btn-rounded-inverse.cancelButton", "Cancel");
-			this.validateExistanceButton (test, ".cgIcon-panelXButton.handCursored", "X close");
-		});
-
-
-		// Validate cancel button
-		casper.then (function validateCancelButton () {
-			this.validateClickButton (test, "Click the cancel button ...", ".btn-rounded-inverse.cancelButton",
-									".headerSingleText", "Administration > " + privilege);
-		});
-
-
-		// Validate cancel button
-		casper.then (function validateCloseButton () {
-			this.validateClickButton (test, "Click the new button ...", ".addListItemButton", ".column-10>h1", "Create New User");
-
-			this.validateClickButton (test, "Click the close button ...", ".cgIcon-panelXButton.handCursored",
-									".headerSingleText", "Administration > " + privilege);
-		});
-
 		casper.then(function createBucket () {
 			// create a user
-			this.validateClickButton (test, "Click the new button ...", ".addListItemButton", ".column-10>h1", "Create New User");
+			this.verifyClickDOM (test, "Click the new button ...", S_NEWITEMBUTTON, S_POPUPTITLE, "Create New User");
 
-			this.inputByFill ('form.form-horizontal', {'person.firstName':newUsr.firstName});
-			this.inputByFill ('form.form-horizontal', {'person.lastName':newUsr.lastName});
+			this.inputByFill (S_INPUTTABLE, {'person.firstName':newUsr.firstName});
+			this.inputByFill (S_INPUTTABLE, {'person.lastName':newUsr.lastName});
 
 			this.validateClickButton (test, "Expand contact information section ...", ".column-16.toggleable:nth-child(2)>.sectionToggle>button", "label[for='email']", "Email *");
 

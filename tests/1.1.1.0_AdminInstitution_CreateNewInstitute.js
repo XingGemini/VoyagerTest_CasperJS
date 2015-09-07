@@ -64,14 +64,14 @@ institutions.forEach(function checkEachInstitute (inst) {
 			// click new button
 			this.verifyClickDOM (test, "Click New button", S_NEWITEMBUTTON, S_POPUPTITLE, "Create New Institution"); // click add button
 			// Input institution name
-			this.inputByFill ('form.form-horizontal', {'name':inst.name});
+			this.inputByFill (S_INPUTTABLE, {'name':inst.name});
 			//Input institution type
 			if (inst.type != undefined) {
 				this.clickDOM ("a[data-option='" + DATAOPTION_MAP[inst.type] + "']");
 			}
 			//Input institution description
 			if (inst.description != undefined) {
-				this.inputByFill ('form.form-horizontal', {'description':inst.description});
+				this.inputByFill (S_INPUTTABLE, {'description':inst.description});
 			}
 
 			// click save button

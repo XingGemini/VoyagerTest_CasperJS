@@ -21,3 +21,20 @@ var S_KEYVALUEPAIR = ".keyValuePair";
 // New button above the xxxx list
 var S_NEWITEMBUTTON = ".addListItemButton";
 
+// Input Table
+var S_INPUTTABLE = 'form.form-horizontal';
+
+// section selector: 1.2.1.0_AdminUser_CreatNewUser
+function ToggleSectionSelector (index) {
+	return ".column-16.toggleable:nth-child("+index+")";
+}
+
+// the toggle button on section: 1.2.1.0_AdminUser_CreatNewUser
+function ToggleButtonOnSection (index) {
+	return ToggleSectionSelector(index) + ">.sectionToggle>button";
+}
+
+// input form on section: 1.2.1.0_AdminUser_CreatNewUser
+function InputFormOnSection (index) {
+	return ToggleSectionSelector(index) + ">" + S_INPUTTABLE;
+}

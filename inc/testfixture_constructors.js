@@ -62,3 +62,10 @@ function usr (firstName, lastName, email, password, privilege) {
 	this.privilege = privilege;
 }
 
+// Group
+function group (name, description) {
+	this.name = name;
+	this.description = description;
+}
+
+

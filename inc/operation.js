@@ -201,3 +201,34 @@ casper.editInstitution = function editInstitution(test) {
 	
 	return this;
 }
+
+/*
+	Open a popup window
+	Check existance of cancel, save and close buttons
+	Verify cancel and close buttons.
+
+	test: Test;
+	button:  button to open the popup window
+	popupTitle: Text of Title on Popupwindows
+*/
+casper.verifyButtonsOnPopUp = function verifyButtonsOnPopUp (test, button, popupTitle) {
+	this.verifyClickDOM (test, "Click Add button", button, S_POPUPTITLE, popupTitle); // click add button
+	this.verifyExistanceDOM (test, "Verify existance of Save button", S_SAVEBUTTON);
+	this.verifyExistanceDOM (test, "Verify existance of Cancel button", S_CANCELBUTTON);
+	this.verifyExistanceDOM (test, "Verify existance of X Close button", S_XCLOSEBUTTON);
+	this.verifyClosePopup (test, "Validating Cancel Button", S_CANCELBUTTON, S_POPUPTITLE);
+	
+	this.wait (
+		SHORTWAITINGTIME, 
+		function then () {
+			this.verifyClickDOM (test, "Click Add button", button, S_POPUPTITLE, popupTitle); // click add button
+	});
+
+	this.wait (
+		SHORTWAITINGTIME, 
+		function then () {
+			this.verifyClosePopup (test, "Validating X close Button", S_XCLOSEBUTTON, S_POPUPTITLE);
+	});
+	
+	return this;
+}

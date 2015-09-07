@@ -87,13 +87,13 @@ usrs.forEach(function checkEachUser (usr){
 			casper.editInstitution (test);
 
 			var newName = randomName (8, 'T_');
-			this.inputByFill ('form.form-horizontal', {'name':newName});
+			this.inputByFill (S_INPUTTABLE, {'name':newName});
 
 			this.clickDOM (S_SAVEBUTTON);
 			this.testInstNameMatch (test, NORMALWAITINGTIME, selectorInstName, newName);
 
 			this.editInstitution(test);
-			this.inputByFill ('form.form-horizontal', {'name':oriInstName});
+			this.inputByFill (S_INPUTTABLE, {'name':oriInstName});
 			this.clickDOM (S_SAVEBUTTON);
 			this.testInstNameMatch (test, NORMALWAITINGTIME, selectorInstName, oriInstName);
 		});
@@ -124,13 +124,13 @@ usrs.forEach(function checkEachUser (usr){
 
 			var newInstDescription = 'changed description';
 
-			this.inputByFill ('form.form-horizontal', {'description':newInstDescription});
+			this.inputByFill (S_INPUTTABLE, {'description':newInstDescription});
 			this.clickDOM (S_SAVEBUTTON);
 			this.testInstDescriptionMatch (test, NORMALWAITINGTIME, selectorInstDesciption, newInstDescription);
 		
 
 			this.editInstitution(test);
-			this.inputByFill ('form.form-horizontal', {'description':oriInstDescription});
+			this.inputByFill (S_INPUTTABLE, {'description':oriInstDescription});
 			this.clickDOM (S_SAVEBUTTON);
 			this.testInstDescriptionMatch (test, NORMALWAITINGTIME, selectorInstDesciption, oriInstDescription);
 		});
@@ -146,9 +146,9 @@ usrs.forEach(function checkEachUser (usr){
 			var newInstType = 'LSDB';
 			var newInstDescription = 'changed description';
 
-			this.inputByFill ('form.form-horizontal', {'name':newName});
+			this.inputByFill (S_INPUTTABLE, {'name':newName});
 			this.clickDOM ("a[data-option='" + DATAOPTION_MAP[newInstType] + "']");
-			this.inputByFill ('form.form-horizontal', {'description':newInstDescription});
+			this.inputByFill (S_INPUTTABLE, {'description':newInstDescription});
 			this.clickDOM (S_SAVEBUTTON);
 
 			this.testInstNameMatch (test, NORMALWAITINGTIME, selectorInstName, newName);
@@ -156,9 +156,9 @@ usrs.forEach(function checkEachUser (usr){
 			this.testInstDescriptionMatch (test, NOWAITINGTIME, selectorInstDesciption, newInstDescription);
 
 			this.editInstitution(test);
-			this.inputByFill ('form.form-horizontal', {'name':oriInstName});
+			this.inputByFill (S_INPUTTABLE, {'name':oriInstName});
 			this.clickDOM ("a[data-option='" + DATAOPTION_MAP[oriInstType] + "']");
-			this.inputByFill ('form.form-horizontal', {'description':oriInstDescription});
+			this.inputByFill (S_INPUTTABLE, {'description':oriInstDescription});
 			this.clickDOM (S_SAVEBUTTON);
 			
 			this.testInstNameMatch (test, NORMALWAITINGTIME, selectorInstName, oriInstName);
@@ -176,7 +176,7 @@ usrs.forEach(function checkEachUser (usr){
 			var newInstDescription = 'changed description';
 
 			this.clickDOM ("a[data-option='" + DATAOPTION_MAP[newInstType] + "']");
-			this.inputByFill ('form.form-horizontal', {'description':newInstDescription});
+			this.inputByFill (S_INPUTTABLE, {'description':newInstDescription});
 			this.clickDOM (S_SAVEBUTTON);
 
 			this.testInstNameMatch (test, NORMALWAITINGTIME, selectorInstName, oriInstName);
@@ -185,7 +185,7 @@ usrs.forEach(function checkEachUser (usr){
 
 			this.editInstitution(test);
 			this.clickDOM ("a[data-option='" + DATAOPTION_MAP[oriInstType] + "']");
-			this.inputByFill ('form.form-horizontal', {'description':oriInstDescription});
+			this.inputByFill (S_INPUTTABLE, {'description':oriInstDescription});
 			this.clickDOM (S_SAVEBUTTON);
 
 			this.testInstNameMatch (test, NORMALWAITINGTIME, selectorInstName, oriInstName);
@@ -202,7 +202,7 @@ usrs.forEach(function checkEachUser (usr){
 			var newName = randomName (8, 'T_');
 			var newInstType = 'LSDB';
 
-			this.inputByFill ('form.form-horizontal', {'name':newName});
+			this.inputByFill (S_INPUTTABLE, {'name':newName});
 			this.clickDOM ("a[data-option='" + DATAOPTION_MAP[newInstType] + "']");
 			this.clickDOM (S_SAVEBUTTON);
 
@@ -211,9 +211,9 @@ usrs.forEach(function checkEachUser (usr){
 			this.testInstDescriptionMatch (test, NOWAITINGTIME, selectorInstDesciption, oriInstDescription);
 
 			this.editInstitution(test);
-			this.inputByFill ('form.form-horizontal', {'name':oriInstName});
+			this.inputByFill (S_INPUTTABLE, {'name':oriInstName});
 			this.clickDOM ("a[data-option='" + DATAOPTION_MAP[oriInstType] + "']");
-			this.inputByFill ('form.form-horizontal', {'description':oriInstDescription});
+			this.inputByFill (S_INPUTTABLE, {'description':oriInstDescription});
 			this.clickDOM (S_SAVEBUTTON);
 
 			this.testInstNameMatch (test, NORMALWAITINGTIME, selectorInstName, oriInstName);
