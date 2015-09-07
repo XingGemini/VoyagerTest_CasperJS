@@ -38,7 +38,7 @@ usrs.forEach(function checkEachUser (usr){
 	
 			var privilege = 'Users';
 	
-			console.log(usr.Institution)
+			console.log(usr.institution)
 	
 			casper.start();
 			
@@ -73,6 +73,8 @@ usrs.forEach(function checkEachUser (usr){
 					NORMALWAITINGTIME,
 					function then () {
 						this.verifyText (test, "Name matching", S_DETAILTITLE, newUsr.firstName + " " + newUsr.lastName);
+						//verify email
+						//verify privilege
 				});
 			});
 			casper.logout();

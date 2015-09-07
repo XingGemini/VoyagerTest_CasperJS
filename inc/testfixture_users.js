@@ -1,19 +1,37 @@
-var USR00ALL = {'usrID':"xxu+00all@completegenomics.com",
-				'pwd':'Complete1',
-				'Institution':'00_TestInstitute',
-				'Admin':false,
-				'ManageKB':true,
-				'Dashboard':true,
-				'Privilege':[	"Institutions", 
-								"Users", 
-								"Groups", 
-								"Samples", 
-								"Report Templates", 
-								//"Probands", 
-								"Tests", 
-								"Filters", 
-								"Imports"]
-				};
+var USR00ALL = new usr (
+	'Dr',		 //salutation
+	'XingXu', 	//'firstName':
+	'All',		//'lastName':
+	'00_TI',	//'nickName':
+	'Ph.D',		//'qualification':
+	'Test',		//'jobTitle'
+	'00_TI',	//'organization'
+	'00_TestInstitute', // institution
+	'Active',	// status
+	'xxu+00all@completegenomics.com', //'usrID':
+	'Complete1',	//pwd 
+	'address1',		//address1
+	'address2',		//address2
+	'Palo Alto',	//city
+	'CA',			//state
+	'94306',			//zip
+	'United States',//country
+	'6501234567',	//Phone
+	'6501234560',	//fax
+	false,		//'Admin':
+	true,		//'ManageKB':
+	true,		//'Dashboard':
+	[	"Institutions", 
+		"Users", 
+		"Groups", 
+		"Samples", 
+		"Report Templates", 
+		//"Probands", 
+		"Tests", 
+		"Filters", 
+		"Imports" ]
+);
+
 
 var USR00INSTANCE = {'usrID':"xxu+00instance@completegenomics.com",
 				'pwd':'Complete1',

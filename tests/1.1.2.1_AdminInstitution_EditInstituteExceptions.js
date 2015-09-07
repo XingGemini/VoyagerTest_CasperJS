@@ -36,7 +36,7 @@ usrs.forEach(function checkEachUser (usr){
 
 		var privilege = 'Institutions';
 
-		console.log(usr.Institution)
+		console.log(usr.institution)
 
 		casper.start();
 		

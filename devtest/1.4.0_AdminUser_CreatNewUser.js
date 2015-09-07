@@ -39,7 +39,7 @@ newusers.forEach(function checkEachNewUser (newUsr){
 
 		var privilege = 'Users';
 
-		console.log(usr.Institution)
+		console.log(usr.institution)
 
 		casper.start();
 		

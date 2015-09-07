@@ -57,10 +57,49 @@ function bucket (name, bucketPath) {
 function usr (firstName, lastName, email, password, privilege) {
 	this.firstName = firstName;
 	this.lastName = lastName;
-	this.email = email;
-	this.password = password;
+	this.usrID = email;
+	this.pwd = password;
 	this.privilege = privilege;
 }
+
+// User
+function usr (salutation, firstName, lastName, 
+			  nickName, qualification, jobTitle, 
+			  organization, institution, publicChoice, 
+			  email, password, 
+			  address1, address2, 
+			  city, state, zip, country, 
+			  phone, fax, Admin, ManageKB, Dashboard, privilege) {
+	this.salutation = salutation;
+	this.firstName = firstName;
+	this.lastName = lastName;
+	this.nickName = nickName;
+	this.qualification = qualification;
+	this.jobTitle= jobTitle;
+	this.organization = organization;
+	this.institution = institution;
+	this.publicChoice = publicChoice;
+	this.usrID = email;
+	this.pwd = password;
+	this.address1 = address1;
+	this.address2 = address2;
+	this.city = city;
+	this.state = state;
+	this.zip = zip;
+	this.country = country;
+	this.phone = phone;
+	this.fax = fax;
+	this.Admin = Admin;
+	this.ManageKB= ManageKB;
+	this.Dashboard = Dashboard;
+	this.privilege = privilege;
+
+	this.displayName = function displayName () {
+		return 	this.salutation + " " + this.firstName + " " +
+			this.lastName + " (" + this.organization + "), " + this.qualification;
+	}
+}
+
 
 // Group
 function group (name, description) {

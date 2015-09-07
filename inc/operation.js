@@ -1,49 +1,4 @@
 /**
- * Helper methods for navigating through a site.
- *
- * This file is included automagically by the "test" executable.
- */
-var utils = require('utils');
-var MAXWAITINGTIME = 60000;
-var NORMALWAITINGTIME = 5000;
-var SHORTWAITINGTIME = 1000;
-var NOWAITINGTIME = 10;
-
-casper.init = function (path) {
-	casper.userAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:36.0) Gecko/20100101 Firefox/36.0');
-	casper.options.viewportSize = {width: 1280, height: 720};
-	casper.on('page.error', function(msg, trace) {
-		this.echo('Error: ' + msg, 'ERROR');
-		for(var i=0; i<trace.length; i++) {
-			var step = trace[i];
-			this.echo('  ' + step.file + ' (line ' + step.line + ')', 'ERROR');
-		}
-	});
-};
-
-/**
- * Wrapper for http://docs.casperjs.org/en/latest/modules/casper.html#open
- *
- * Uses url argument from the command line in order to open a URL path.
- */
-casper.openPath = function (path) {
-	 var cleanPath = path.replace(/^\//, '');
-	 return casper.open(casper.cli.get('url') + '/' + cleanPath);
-};
-
-/**
- * Wrapper for http://docs.casperjs.org/en/latest/modules/casper.html#thenopen
- *
- * Uses url argument from the command line in order to open a URL path and
- * define a navigation step.
- */
-casper.thenOpenPath = function (path, thenCallback) {
-  var cleanPath = path.replace(/^\//, '');
-  return casper.thenOpen(casper.cli.get('url') + '/' + cleanPath, thenCallback);
-};
-
-
-/**
  * Wrapper for http://docs.casperjs.org/en/latest/modules/casper.html#thenopen
  *
  * Uses url argument from the command line in order to open a URL path and
@@ -232,3 +187,55 @@ casper.verifyButtonsOnPopUp = function verifyButtonsOnPopUp (test, button, popup
 	
 	return this;
 }
+
+
+//.groupAdminDetailDetails>dl>dd:nth-child(4)>dl>dd:nth-child(2)>.contactDisplay
+casper.verifyCreatedBy = function verifyCreatedBy (test, testString, creatorText) {
+	this.wait (
+		NOWAITINGTIME,
+		function then () {
+			this.fetchDOMText (S_Creator (4), 0, function getText (acturalCreatorText) {
+				test.assertEqual (acturalCreatorText, creatorText, testString);
+		});		
+	});
+
+	return this;
+}
+
+casper.verifyUpdatedBy = function verifyCreatedBy (test, testString, updatorText) {
+	this.wait (
+		NOWAITINGTIME,
+		function then () {
+			this.fetchDOMText (S_Updator (4), 0, function getText (acturalUpdatorText) {
+				test.assertEqual (acturalUpdatorText, updatorText, testString);
+		});		
+	});
+
+	return this;
+}
+
+casper.verifyKeyValuePair = function verifyKeyValuePair (test, testString, myKey, myValue) {
+	this.wait (
+		NOWAITINGTIME,
+		function then () {
+			var keys = this.getElementsInfo (S_KEYVALUE_DT (2));
+			var values = this.getElementsInfo (S_KEYVALUE_DD (2));
+			//utils.dump(keys);
+			//utils.dump(values);
+
+			var actualValue = '';
+			for (var j = 0; j < keys.length; j++) {
+				if (keys[j].text == myKey) {
+					actualValue = values[j].text;
+					break;
+				}
+			}
+
+			test.assertEqual (actualValue, myValue, testString);
+		}
+	)
+
+	return this;
+}
+
+

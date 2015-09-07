@@ -38,3 +38,31 @@ function ToggleButtonOnSection (index) {
 function InputFormOnSection (index) {
 	return ToggleSectionSelector(index) + ">" + S_INPUTTABLE;
 }
+
+// Key Value Pair + dt Selector 
+// ".groupAdminDetailDetails>dl>dd:nth-child(2)>.keyValuePair>dt
+
+function S_KEYVALUE_DT (sectionIdx) {
+	return ".groupAdminDetailDetails>dl>dd:nth-child("+sectionIdx+")>.keyValuePair>dt";
+}
+
+// Key Value Pair + dd Selector 
+// ".groupAdminDetailDetails>dl>dd:nth-child(2)>.keyValuePair>dd
+
+function S_KEYVALUE_DD (sectionIdx) {
+	return ".groupAdminDetailDetails>dl>dd:nth-child("+sectionIdx+")>.keyValuePair>dd";
+}
+
+// Creator Selector 
+// .groupAdminDetailDetails>dl>dd:nth-child(4)>dl>dd:nth-child(2)>.contactDisplay
+
+function S_Creator (sectionIdx) {
+	return ".groupAdminDetailDetails>dl>dd:nth-child("+sectionIdx+")>dl>dd:nth-child(2)>.contactDisplay";
+}
+
+// Creator Selector 
+// .groupAdminDetailDetails>dl>dd:nth-child(4)>dl>dd:nth-child(2)>.contactDisplay
+
+function S_Updator (sectionIdx) {
+	return ".groupAdminDetailDetails>dl>dd:nth-child("+sectionIdx+")>dl>dd:nth-child(4)>.contactDisplay";
+}

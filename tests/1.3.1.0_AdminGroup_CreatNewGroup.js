@@ -37,13 +37,13 @@ usrs.forEach(function checkEachUser (usr){ // user to create group
 	
 			var privilege = 'Groups';
 	
-			console.log(usr.Institution);
+			console.log(usr.institution);
 	
 			casper.start();
 			
 			casper.admin ('/login.html', usr, privilege);
 	
-			casper.then(function createGroup () {
+			casper.then(function createGroupNameDescription () {
 				// create a user
 				this.verifyClickDOM (test, "Click the new button ...", S_NEWITEMBUTTON, S_POPUPTITLE, "Create New Group");
 	
@@ -54,6 +54,12 @@ usrs.forEach(function checkEachUser (usr){ // user to create group
 					NORMALWAITINGTIME,
 					function then () {
 						this.verifyText (test, "Group name matching", S_DETAILTITLE, newGroup.name);
+						this.verifyKeyValuePair (test, "Verify Group Name", "Group Name:", newGroup.name);
+						this.verifyKeyValuePair (test, "Verify Institution", "Institution:", usr.institution);
+						this.verifyKeyValuePair (test, "Verify Status", "Status:", "Active");
+						this.verifyKeyValuePair (test, "Verify Description", "Description:", newGroup.description);
+						this.verifyCreatedBy (test, "Verify Created By", usr.displayName());
+						this.verifyUpdatedBy (test, "Verify Updated By", usr.displayName());
 				});
 			});
 			casper.logout();
@@ -65,4 +71,7 @@ usrs.forEach(function checkEachUser (usr){ // user to create group
 	
 	});
 });
+
+
+
 
