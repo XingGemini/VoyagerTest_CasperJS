@@ -53,13 +53,7 @@ usrs.forEach(function checkEachUser (usr){ // user to create group
 				this.wait (
 					NORMALWAITINGTIME,
 					function then () {
-						this.verifyText (test, "Group name matching", S_DETAILTITLE, newGroup.name);
-						this.verifyKeyValuePair (test, "Verify Group Name", "Group Name:", newGroup.name);
-						this.verifyKeyValuePair (test, "Verify Institution", "Institution:", usr.institution);
-						this.verifyKeyValuePair (test, "Verify Status", "Status:", "Active");
-						this.verifyKeyValuePair (test, "Verify Description", "Description:", newGroup.description);
-						this.verifyCreatedBy (test, "Verify Created By", usr.displayName());
-						this.verifyUpdatedBy (test, "Verify Updated By", usr.displayName());
+						this.verifyNewGroup (test, "Verify Newly created group", newGroup, usr);
 				});
 			});
 			casper.logout();

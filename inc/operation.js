@@ -238,4 +238,45 @@ casper.verifyKeyValuePair = function verifyKeyValuePair (test, testString, myKey
 	return this;
 }
 
+casper.verifySearchInSplitView = function verifySearchInSplitView (test, testString, searchText) {
+	this.waitForSelector (
+		S_SEARCHFORM,
+		function success (){
+			console.log (S_SEARCHFIELD);
+			this.sendKeys (S_SEARCHFIELD, searchText);
+			this.wait (
+				NORMALWAITINGTIME,
+				function then () {
+					this.fetchDOMText (
+						S_RESULTCOUNT, 0, function getText (actualText) {
+							test.assertEqual (actualText, "1", "Verify one result ONLY");
+					});
+			});
+		}, 
+		function failure () {
+			test.assertExists (S_SEARCHFIELD, testString);
+		}
+	);
+}
+
+casper.verifyNewGroup = function verifyNewGroup (test, testString, newGroup, usr) {
+	console.log (testString);
+	this.verifyText (test, "Group name matching", S_DETAILTITLE, newGroup.name);
+	this.verifyKeyValuePair (test, "Verify Group Name", "Group Name:", newGroup.name);
+	this.verifyKeyValuePair (test, "Verify Institution", "Institution:", usr.institution);
+	this.verifyKeyValuePair (test, "Verify Status", "Status:", "Active");
+	this.verifyKeyValuePair (test, "Verify Description", "Description:", newGroup.description);
+	this.verifyCreatedBy (test, "Verify Created By", usr.displayName());
+	this.verifyUpdatedBy (test, "Verify Updated By", usr.displayName());
+	
+	this.verifyNewGroupInList (test, "Verify the new Group in the list", newGroup, usr);
+}
+
+casper.verifyNewGroupInList = function verifyNewGroupInList (test, testString, newGroup, usr) {
+	console.log (testString);
+	this.verifySearchInSplitView (test, "Search newly created Group", newGroup.name);
+	this.verifyText (test, "Group name on Search Results", ".condensedListItemName", newGroup.name);
+	this.verifyText (test, "Group institute on Search Results", ".groupInstitution", usr.institution);
+	this.verifyText (test, "Total User in Group", ".totalUsers", "0 Users");
+}
 

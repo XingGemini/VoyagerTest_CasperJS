@@ -60,9 +60,23 @@ function S_Creator (sectionIdx) {
 	return ".groupAdminDetailDetails>dl>dd:nth-child("+sectionIdx+")>dl>dd:nth-child(2)>.contactDisplay";
 }
 
-// Creator Selector 
-// .groupAdminDetailDetails>dl>dd:nth-child(4)>dl>dd:nth-child(2)>.contactDisplay
+// Updateer Selector 
+// .groupAdminDetailDetails>dl>dd:nth-child(4)>dl>dd:nth-child(4)>.contactDisplay
 
 function S_Updator (sectionIdx) {
 	return ".groupAdminDetailDetails>dl>dd:nth-child("+sectionIdx+")>dl>dd:nth-child(4)>.contactDisplay";
 }
+
+// Search Form
+var S_LISTSEARCHFORM = "#listSearchForm";
+
+// Search Form
+var S_SEARCHFORM = "#searchForm";
+
+// SearchField Selector
+var S_SEARCHFIELD = 'input[id="searchField"]';
+
+// resultCount Selector
+var S_RESULTCOUNT = ".resultCount";
+
+
