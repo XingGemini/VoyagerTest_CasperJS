@@ -20,8 +20,8 @@ var myBucket = new bucket ("Test", "voyager.us-east-1.completegenomics.com/sampl
 
 var usrs = [USR00ALL, 
 			//USR00INSTITUTION,
-			//USR00INSTANCE,
-			//USR00SAMPLE,
+			USR00INSTANCE,
+			USR00USER,
 			];
 
 var NEWUSR1 = new usr ('T_firstName', 'T_lastName', randomName(8, 'test-voyager+')+'@completegenomics.com', 'Complete1', ['MANAGE_USER', 'MANAGE_INSTITUTION']);
@@ -34,9 +34,9 @@ usrs.forEach(function checkEachUser (usr){
 
 	newusers.forEach(function checkEachNewUser (newUsr){
 		
-		casper.test.begin('Privilege Access Test for user ' + usr.usrID, function(test) {
+		casper.test.begin('Privilege Access Test for user ' + usr.email, function(test) {
 	
-			var privilege = 'Users';
+			var privilege = 'MANAGE_USER';
 	
 			console.log(usr.institution)
 	

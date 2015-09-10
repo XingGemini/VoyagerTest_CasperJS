@@ -7,36 +7,49 @@ DATAOPTION_MAP['Professional Society']='professional-society';
 DATAOPTION_MAP['LSDB'] = 'lsdb';
 DATAOPTION_MAP['Genomic DB'] = 'genomic-database';
 
+// User
+var PRVILEGEVALIDATIONTEXT = {};
+PRVILEGEVALIDATIONTEXT['MANAGE_INSTITUTION']="Manage Institution";
+PRVILEGEVALIDATIONTEXT['MANAGE_INSTANCE']="Instance Admin";
+PRVILEGEVALIDATIONTEXT['MANAGE_USER']="Manage Users";
+PRVILEGEVALIDATIONTEXT['MANAGE_GROUP']="Manage Groups";
+PRVILEGEVALIDATIONTEXT['MANAGE_FILTER']="Manage Filters";
+PRVILEGEVALIDATIONTEXT['MANAGE_TEST']="Manage Tests";
+PRVILEGEVALIDATIONTEXT['MANAGE_CASE']="Manage Cases";
+PRVILEGEVALIDATIONTEXT['MANAGE_CONTACTS']="Manage Contacts";
+PRVILEGEVALIDATIONTEXT['MANAGE_KNOWLEDGE_BASE']="Manage Knowledge Base";
+PRVILEGEVALIDATIONTEXT['MANAGE_REPORT_TEMPLATE']="Manage Report Templates";
+PRVILEGEVALIDATIONTEXT['MANAGE_IMPORT']="Manage Imports";
+PRVILEGEVALIDATIONTEXT['MANAGE_DASHBOARD']="Access Dashboard";
 
-var PRVILEGE_MAP = {};
-PRVILEGE_MAP['MANAGE_INSTITUTION']="Manage Institution";
-PRVILEGE_MAP['MANAGE_INSTANCE']="Instance Admin";
-PRVILEGE_MAP['MANAGE_USER']="Manage Users";
-PRVILEGE_MAP['MANAGE_GROUP']="Manage Groups";
-PRVILEGE_MAP['MANAGE_FILTER']="Manage Filters";
-PRVILEGE_MAP['MANAGE_TEST']="Manage Tests";
-PRVILEGE_MAP['MANAGE_CASE']="Manage Cases";
-PRVILEGE_MAP['MANAGE_CONTACTS']="Manage Contacts";
-PRVILEGE_MAP['MANAGE_KNOWLEDGE_BASE']="Manage Knowledge Base";
-PRVILEGE_MAP['MANAGE_REPORT_TEMPLATE']="Manage Report Templates";
-PRVILEGE_MAP['MANAGE_IMPORT']="Manage Imports";
-PRVILEGE_MAP['MANAGE_DASHBOARD']="Access Dashboard";
+// Admin Menu
+var PRVILEGE_MENUITEM = {};
+PRVILEGE_MENUITEM['MANAGE_INSTITUTION']="Institution";
+PRVILEGE_MENUITEM['MANAGE_USER']="Users";
+PRVILEGE_MENUITEM['MANAGE_GROUP']="Groups";
+PRVILEGE_MENUITEM['MANAGE_FILTER']="Filters";
+PRVILEGE_MENUITEM['MANAGE_TEST']="Tests";
+PRVILEGE_MENUITEM['MANAGE_CASE']="Cases";
+PRVILEGE_MENUITEM['MANAGE_PROBAND']="Probands";
+PRVILEGE_MENUITEM['MANAGE_KNOWLEDGE_BASE']="Knowledge Base";
+PRVILEGE_MENUITEM['MANAGE_REPORT_TEMPLATE']="Report Templates";
+PRVILEGE_MENUITEM['MANAGE_IMPORT']="Imports";
 
-
-function institution (name) {
-	this.name = name;
-	this.type = 'Individual';
-}
-
-function institution (name, type) {
-	this.name = name;
-	this.type = type;
-}
 
 function institution (name, type, description) {
 	this.name = name;
-	this.type = type;
-	this.description = description;
+
+	if (type === undefined) {
+		this.type = 'Individual';
+	} else {
+		this.type = type;
+	}
+
+	if (description === undefined) {
+		this.description = '';
+	} else {
+		this.description = description;
+	}
 }
 
 // Bucket
@@ -44,14 +57,14 @@ function institution (name, type, description) {
 function bucket (name, bucketPath, region) {
 	this.name = name;
 	this.bucketPath = bucketPath;
-	this.region = region;
+
+	if (region === undefined) {
+		this.region = "US East (Northern Virginia) Region";
+	} else {
+		this.region = region;
+	}
 } 
 
-function bucket (name, bucketPath) {
-	this.name = name;
-	this.bucketPath = bucketPath;
-	this.region = "US East (Northern Virginia) Region";
-} 
 
 // User
 function usr (firstName, lastName, email, password, privilege) {
@@ -63,24 +76,24 @@ function usr (firstName, lastName, email, password, privilege) {
 }
 
 // User
-function usr (salutation, firstName, lastName, 
-			  nickName, qualification, jobTitle, 
+function usr (firstName, lastName, email, password, privilege,
+			  salutation, nickName, qualification, jobTitle, 
 			  organization, institution, publicChoice, 
-			  email, password, 
 			  address1, address2, 
 			  city, state, zip, country, 
-			  phone, fax, Admin, ManageKB, Dashboard, privilege) {
-	this.salutation = salutation;
+			  phone, fax, Admin, ManageKB, Dashboard) {
 	this.firstName = firstName;
 	this.lastName = lastName;
+	this.email = email;
+	this.password = password;
+	this.privilege = privilege;
+	this.salutation = salutation;
 	this.nickName = nickName;
 	this.qualification = qualification;
 	this.jobTitle= jobTitle;
 	this.organization = organization;
 	this.institution = institution;
 	this.publicChoice = publicChoice;
-	this.usrID = email;
-	this.pwd = password;
 	this.address1 = address1;
 	this.address2 = address2;
 	this.city = city;
@@ -92,7 +105,6 @@ function usr (salutation, firstName, lastName,
 	this.Admin = Admin;
 	this.ManageKB= ManageKB;
 	this.Dashboard = Dashboard;
-	this.privilege = privilege;
 
 	this.displayName = function displayName () {
 		return 	this.salutation + " " + this.firstName + " " +

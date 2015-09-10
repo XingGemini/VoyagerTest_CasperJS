@@ -44,7 +44,7 @@ institutions.forEach(function checkEachInstitute (inst) {
 		casper.start();
 
 		var usr = USR00INSTANCE;  // using USR00INSTANCE
-		var privilege = 'Institutions';
+		var privilege = 'MANAGE_INSTITUTION';
 
 		var typeChoice = '';
 		var description = '';
@@ -101,7 +101,7 @@ institutions.forEach(function checkEachInstitute (inst) {
 							});
 						}
 		
-						if (inst.description != undefined) {
+						if (inst.description != '') {
 							this.fetchDOMText(S_KEYVALUEPAIR, 1, function getText (keyValuePair) {
 								keyValuePair = keyValuePair.replace(/\s+/g, "");
 								test.assertEquals (keyValuePair, "Description:" + inst.description,

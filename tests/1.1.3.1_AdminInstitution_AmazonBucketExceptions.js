@@ -39,9 +39,9 @@ var usrs = [USR00ALL,
 
 usrs.forEach(function checkEachUser (usr){
 
-	casper.test.begin('Privilege Access Test for user ' + usr.usrID, function(test) {
+	casper.test.begin('Privilege Access Test for user ' + usr.email, function(test) {
 
-		var privilege = 'Institutions';
+		var privilege = 'MANAGE_INSTITUTION';
 
 		console.log(usr.institution)
 

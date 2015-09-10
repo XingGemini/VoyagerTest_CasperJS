@@ -6,8 +6,8 @@
  */
 casper.login = function (path, usr) {
 	var cleanPath = path.replace(/^\//, '');
-	var usid = usr.usrID;
-	var pwd = usr.pwd;
+	var usid = usr.email;
+	var pwd = usr.password;
 	
 	console.log ("path " + cleanPath);
 	console.log ("URL " + casper.cli.get('url'));
@@ -82,6 +82,8 @@ function validatePrivilege (usr, privilege) {
 
 casper.admin = function (path, usr, privilege) {	
 	casper.login (path, usr);
+
+	privilege = PRVILEGE_MENUITEM[privilege];
 
 	casper.waitForSelector("#adminContainer > .submenuLink.adminCategoryLink",
 		function success() {

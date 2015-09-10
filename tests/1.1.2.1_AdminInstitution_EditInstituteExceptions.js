@@ -32,9 +32,9 @@ var usrs = [USR00ALL,
 
 usrs.forEach(function checkEachUser (usr){
 
-	casper.test.begin('Privilege Access Test for user ' + usr.usrID, function(test) {
+	casper.test.begin('Privilege Access Test for user ' + usr.email, function(test) {
 
-		var privilege = 'Institutions';
+		var privilege = 'MANAGE_INSTITUTION';
 
 		console.log(usr.institution)
 
@@ -55,7 +55,7 @@ usrs.forEach(function checkEachUser (usr){
 			this.verifyExistanceDOM (test, "Verify existance of X Close button", S_XCLOSEBUTTON);
 			this.verifyClosePopup (test, "Validating Cancel Button", S_CANCELBUTTON, S_POPUPTITLE);
 
-			this.wait (SHORTWAITINGTIME);				
+			this.wait (SHORTWAITINGTIME);
 			this.verifyClickDOM (test, "Click Pen button", ".cgIcon-editBtn", "a[data-option=\'edit\']", "Edit Institution"); // click pen button
 			this.verifyClickDOM (test, "Click Edit Option", "a[data-option=\'edit\']", S_POPUPTITLE, "Edit Institution"); // click edit option
 			this.wait (SHORTWAITINGTIME);

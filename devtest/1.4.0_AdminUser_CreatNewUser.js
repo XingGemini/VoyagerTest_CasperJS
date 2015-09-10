@@ -35,7 +35,7 @@ usrs.forEach(function checkEachUser (usr){
 
 newusers.forEach(function checkEachNewUser (newUsr){
 	
-	casper.test.begin('Privilege Access Test for user ' + usr.usrID, function(test) {
+	casper.test.begin('Privilege Access Test for user ' + usr.email, function(test) {
 
 		var privilege = 'Users';
 

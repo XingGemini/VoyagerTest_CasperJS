@@ -29,16 +29,15 @@ casper.init();
 var myBucket = new bucket ("Test", "voyager.us-east-1.completegenomics.com/sample");
 
 var usrs = [USR00ALL,
-			//USR00INSTITUTION,
-			//USR00INSTANCE,
-			//USR00SAMPLE,
+			USR00INSTITUTION,
+			USR00INSTANCE,
 			];
 
 usrs.forEach(function checkEachUser (usr){
 
-	casper.test.begin('Privilege Access Test for user ' + usr.usrID, function(test) {
+	casper.test.begin('Privilege Access Test for user ' + usr.email, function(test) {
 
-		var privilege = 'Institutions';
+		var privilege = 'MANAGE_INSTITUTION';
 
 		console.log(usr.institution)
 

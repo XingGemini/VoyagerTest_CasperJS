@@ -19,8 +19,8 @@ casper.init();
 
 var usrs = [USR00ALL, 
 			//USR00INSTITUTION,
-			//USR00INSTANCE,
-			//USR00GROUP,
+			USR00INSTANCE,
+			USR00GROUP,
 			];
 
 var myGroup = new group (randomName(8, "TG_"), "Description");
@@ -33,9 +33,9 @@ usrs.forEach(function checkEachUser (usr){ // user to create group
 
 	newGroups.forEach(function checkEachNewGroup (newGroup){
 		
-		casper.test.begin('Admin Group Test for user ' + usr.usrID, function(test) {
+		casper.test.begin('Admin Group Test for user ' + usr.email, function(test) {
 	
-			var privilege = 'Groups';
+			var privilege = 'MANAGE_GROUP';
 	
 			console.log(usr.institution);
 	

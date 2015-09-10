@@ -8,12 +8,12 @@ casper.init();
 casper.test.begin('User with Instance Privilege', function(test) {
 
 	var usr = USR00INSTANCE;  // using USR00INSTANCE
-	var privilege = 'Institutions';
+	var privilege = 'MANAGE_INSTITUTION';
 
 	casper.start();
 
 	test.assertEqual (validatePrivilege(usr, privilege), true, 
-						"User " + usr.usrID + "has the admin privilege of " + privilege);
+						"User " + usr.email + "has the admin privilege of " + privilege);
 
 	casper.admin ('/login.html', usr, privilege);
 
