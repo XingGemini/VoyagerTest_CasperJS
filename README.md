@@ -1,5 +1,3 @@
-**This piece of logic has been moved to https://www.drupal.org/project/casperjs**
-
 # Automated testing
 
 This directory contains [CasperJS](http://casperjs.org) tests that ensure the
